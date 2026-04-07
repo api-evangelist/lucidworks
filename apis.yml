@@ -1,8 +1,7 @@
 aid: lucidworks
 name: LucidWorks
 description: >-
-  The Custom Rules API allows you to create, read, update, and delete custom
-  rules. 
+  The Custom Rules API allows you to create, read, update, and delete custom rules.
 type: Index
 position: Consumer
 access: 3rd-Party
@@ -18,8 +17,7 @@ apis:
   - aid: lucidworks:lucidworks
     name: LucidWorks
     description: >-
-      The Custom Rules API allows you to create, read, update, and delete custom
-      rules. 
+      The Custom Rules API allows you to create, read, update, and delete custom rules.
     humanURL: ' https://legacydoc.lucidworks.com/fusion/5.7/331/custom-rules-api'
     tags:
       - API
