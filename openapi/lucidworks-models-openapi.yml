@@ -1,0 +1,171 @@
+openapi: 3.1.0
+info:
+  title: Lucidworks Model Management API
+  description: >-
+    The Model Management API lets teams create, get, list, deploy, and
+    delete models used by Lucidworks AI. Custom models can be registered
+    and deployed alongside the default catalog for inference at query and
+    indexing time.
+  version: '1.0.0'
+  contact:
+    name: Lucidworks Support
+    url: https://lucidworks.com/support
+externalDocs:
+  description: Lucidworks Model Management API Reference
+  url: https://doc.lucidworks.com/api-reference/manage-models/list-all-models
+servers:
+  - url: https://api.lucidworks.ai
+security:
+  - bearerAuth: []
+tags:
+  - name: Models
+    description: Manage models
+  - name: Deployments
+    description: Manage model deployments
+paths:
+  /ai/models:
+    get:
+      tags:
+        - Models
+      summary: List all models
+      operationId: listModels
+      responses:
+        '200':
+          description: Model list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Model'
+    post:
+      tags:
+        - Models
+      summary: Create a model
+      operationId: createModel
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Model'
+      responses:
+        '201':
+          description: Model created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Model'
+  /ai/models/{modelId}:
+    get:
+      tags:
+        - Models
+      summary: Get a model
+      operationId: getModel
+      parameters:
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Model
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Model'
+  /ai/models/{modelId}/deployments:
+    get:
+      tags:
+        - Deployments
+      summary: List a model's deployments
+      operationId: listModelDeployments
+      parameters:
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Deployments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Deployment'
+    post:
+      tags:
+        - Deployments
+      summary: Deploy a custom model
+      operationId: deployCustomModel
+      parameters:
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Deployment'
+      responses:
+        '201':
+          description: Deployment created
+  /ai/models/{modelId}/deployments/{deploymentId}:
+    delete:
+      tags:
+        - Deployments
+      summary: Delete a custom model deployment
+      operationId: deleteDeployment
+      parameters:
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: deploymentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Deployment deleted
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Model:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        version:
+          type: string
+        description:
+          type: string
+    Deployment:
+      type: object
+      properties:
+        id:
+          type: string
+        modelId:
+          type: string
+        status:
+          type: string
+        replicas:
+          type: integer

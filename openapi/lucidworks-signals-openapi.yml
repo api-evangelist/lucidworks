@@ -1,0 +1,177 @@
+openapi: 3.1.0
+info:
+  title: Lucidworks Signals API
+  description: >-
+    The Signals API captures and retrieves user behavior signals for click,
+    query, cart-add, and purchase-complete events. Signals power relevance
+    tuning, recommendations, and analytics across Lucidworks Commerce Studio
+    and Analytics Studio.
+  version: '1.0.0'
+  contact:
+    name: Lucidworks Support
+    url: https://lucidworks.com/support
+externalDocs:
+  description: Lucidworks Signals API Reference
+  url: https://doc.lucidworks.com/api-reference/get-signals/click-signals
+servers:
+  - url: https://api.lucidworks.ai
+security:
+  - bearerAuth: []
+tags:
+  - name: Signals
+    description: Capture and retrieve user behavior signals
+paths:
+  /signals/click:
+    get:
+      tags:
+        - Signals
+      summary: Get click signals
+      operationId: getClickSignals
+      parameters:
+        - name: app
+          in: query
+          schema:
+            type: string
+        - name: from
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: to
+          in: query
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: Click signals
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignalList'
+    post:
+      tags:
+        - Signals
+      summary: Record click signal
+      operationId: recordClickSignal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Signal'
+      responses:
+        '201':
+          description: Signal recorded
+  /signals/query:
+    get:
+      tags:
+        - Signals
+      summary: Get query signals
+      operationId: getQuerySignals
+      responses:
+        '200':
+          description: Query signals
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignalList'
+    post:
+      tags:
+        - Signals
+      summary: Record query signal
+      operationId: recordQuerySignal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Signal'
+      responses:
+        '201':
+          description: Signal recorded
+  /signals/cartadd:
+    get:
+      tags:
+        - Signals
+      summary: Get cart-add signals
+      operationId: getCartAddSignals
+      responses:
+        '200':
+          description: Cart-add signals
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignalList'
+    post:
+      tags:
+        - Signals
+      summary: Record cart-add signal
+      operationId: recordCartAddSignal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Signal'
+      responses:
+        '201':
+          description: Signal recorded
+  /signals/purchase-complete:
+    get:
+      tags:
+        - Signals
+      summary: Get purchase-complete signals
+      operationId: getPurchaseCompleteSignals
+      responses:
+        '200':
+          description: Purchase signals
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignalList'
+    post:
+      tags:
+        - Signals
+      summary: Record purchase-complete signal
+      operationId: recordPurchaseSignal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Signal'
+      responses:
+        '201':
+          description: Signal recorded
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Signal:
+      type: object
+      properties:
+        type:
+          type: string
+        userId:
+          type: string
+        sessionId:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        params:
+          type: object
+          additionalProperties: true
+    SignalList:
+      type: object
+      properties:
+        signals:
+          type: array
+          items:
+            $ref: '#/components/schemas/Signal'
+        count:
+          type: integer

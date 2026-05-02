@@ -1,0 +1,115 @@
+openapi: 3.1.0
+info:
+  title: Lucidworks Content Chunking API
+  description: >-
+    The Content Chunking API splits long-form content into retrieval-ready
+    passages using dynamic-sentence chunkers, semantic chunkers, and regex
+    splitters. Chunked output feeds vector indexing and RAG pipelines.
+  version: '1.0.0'
+  contact:
+    name: Lucidworks Support
+    url: https://lucidworks.com/support
+externalDocs:
+  description: Lucidworks Chunking API Reference
+  url: https://doc.lucidworks.com/api-reference/split-content-into-chunks/chunk-text-using-the-specified-chunker
+servers:
+  - url: https://api.lucidworks.ai
+security:
+  - bearerAuth: []
+tags:
+  - name: Chunking
+    description: Split content into chunks
+paths:
+  /ai/chunk/{chunker}:
+    post:
+      tags:
+        - Chunking
+      summary: Chunk text using the specified chunker
+      operationId: chunkText
+      parameters:
+        - name: chunker
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - dynamic-sentence
+              - semantic
+              - regex
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChunkRequest'
+      responses:
+        '202':
+          description: Chunking job accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChunkAck'
+  /ai/chunk/results/{chunkingId}:
+    get:
+      tags:
+        - Chunking
+      summary: Get chunking results
+      operationId: getChunkingResults
+      parameters:
+        - name: chunkingId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Chunking result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChunkResult'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ChunkRequest:
+      type: object
+      required:
+        - input
+      properties:
+        input:
+          type: string
+        maxTokens:
+          type: integer
+        overlap:
+          type: integer
+        regex:
+          type: string
+    ChunkAck:
+      type: object
+      properties:
+        chunkingId:
+          type: string
+        status:
+          type: string
+    ChunkResult:
+      type: object
+      properties:
+        chunkingId:
+          type: string
+        status:
+          type: string
+        chunks:
+          type: array
+          items:
+            type: object
+            properties:
+              text:
+                type: string
+              tokens:
+                type: integer
+              index:
+                type: integer
