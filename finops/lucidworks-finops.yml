@@ -1,191 +1,86 @@
 specification: FinOps Framework
 specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Lucidworks
+providerId: lucidworks
+created: '2026-05-04'
+modified: '2026-05-05'
+reconciled: false
+tags:
+  - FinOps
+  - FOCUS
+  - Enterprise Search
+  - Vector Search
+  - AI Infrastructure
+description: 'FOCUS-aligned FinOps for Lucidworks: enterprise contract-based pricing for AI Platform
+  and Fusion. Cost is contract-driven; consumption meters are query-volume, document-volume, embedding
+  inference, and Fusion compute footprint.'
+sources:
+  - https://lucidworks.com/
+notes: No public pricing/billing docs at reconciliation time; meter list reflects typical billable
+  lines for enterprise search platforms.
 alignedWith:
   framework: FinOps Foundation Framework
   frameworkUrl: https://www.finops.org/framework/
   dataSpec: FOCUS
   dataSpecVersion: '1.3'
   dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
-provider: Lucidworks
-providerId: lucidworks
-publisherName: Lucidworks
-serviceCategory: API
-created: '2026-05-04'
-modified: '2026-05-04'
-tags:
-  - Search
-  - Artificial Intelligence
-  - Enterprise Search
-  - Vector Search
-  - RAG
-  - Commerce
-  - FinOps
-  - Cost Management
-  - FOCUS
-description: FinOps framework definition for the Lucidworks API surface. Provides a FOCUS-aligned mapping
-  for cost allocation, usage measurement, and unit-economics reporting across the provider's APIs.
-principles:
-  - name: Visibility
-    description: Make API consumption costs visible to engineering, product, and finance teams in near
-      real-time.
-  - name: Allocation
-    description: Tag every chargeable API call with the consuming team, environment, application, and
-      feature so cost can be allocated.
-  - name: Optimization
-    description: Continuously evaluate request patterns, caching, batching, and tier selection to reduce
-      cost per useful unit of work.
-  - name: Accountability
-    description: Establish budget owners and chargeback or showback flows for each consuming team.
-domains:
-  - name: Understand Usage and Cost
-    capabilities:
-      - Data Ingestion
-      - Allocation
-      - Reporting and Analytics
-      - Anomaly Management
-  - name: Quantify Business Value
-    capabilities:
-      - Planning and Estimating
-      - Forecasting
-      - Budgeting
-      - Benchmarking
-      - Unit Economics
-  - name: Optimize Usage and Cost
-    capabilities:
-      - Architecting for Cloud
-      - Rate Optimization
-      - Workload Optimization
-      - Cloud Sustainability
-      - Licensing and SaaS
-  - name: Manage the FinOps Practice
-    capabilities:
-      - FinOps Practice Operations
-      - FinOps Education and Enablement
-      - Invoicing and Chargeback
-      - Onboarding Workloads
-      - Intersecting Disciplines
+publisherName: Lucidworks, Inc.
+serviceCategory: Enterprise Search
 billingModel:
-  pricingCategory: Usage-Based
-  billingFrequency: Monthly
+  pricingCategory: Enterprise Contract
+  billingFrequency: Annual
   billingCurrency: USD
   chargeCategories:
     - Usage
     - Purchase
     - Tax
-    - Credit
     - Adjustment
-  chargeFrequency: Recurring
 focusColumns:
   ServiceName: Lucidworks
-  ServiceCategory: Developer Tools / API
+  ServiceCategory: Enterprise Search
   ProviderName: Lucidworks
-  PublisherName: Lucidworks
-  InvoiceIssuerName: Lucidworks
-  PricingCategory: Usage-Based
-  PricingUnit: request
+  PublisherName: Lucidworks, Inc.
+  InvoiceIssuerName: Lucidworks, Inc.
   BillingCurrency: USD
-  ChargeCategory: Usage
 meters:
-  - name: api_requests
-    description: Count of billable API requests
+  - name: queries
+    unit: query
+    aggregation: sum
+    dimensions:
+      - app
+      - tenant
+  - name: documents_indexed
+    unit: document
+    aggregation: sum
+    dimensions:
+      - tenant
+  - name: embedding_inferences
+    unit: inference
+    aggregation: sum
+    dimensions:
+      - model
+      - tenant
+  - name: ai_platform_calls
     unit: request
     aggregation: sum
     dimensions:
       - api
-      - endpoint
-      - tier
-      - region
-      - consumer
-  - name: data_egress
-    description: Bytes returned over the network in API responses
-    unit: GB
+      - tenant
+  - name: fusion_compute
+    unit: instance-hour
     aggregation: sum
     dimensions:
-      - api
-      - region
-      - consumer
-  - name: compute_seconds
-    description: Server-side compute consumed by the request, where applicable
-    unit: second
-    aggregation: sum
-    dimensions:
-      - api
-      - endpoint
-      - tier
-apis:
-  - name: Lucidworks AI Platform API
-    baseURL: https://api.lucidworks.ai
-    tags:
-      - Artificial Intelligence
-      - Predictions
-      - RAG
-      - Summarization
-      - NER
-      - LLM
-    serviceName: Lucidworks AI Platform API
-    serviceCategory: API
-  - name: Lucidworks Embeddings and Classification API
-    baseURL: https://api.lucidworks.ai
-    tags:
-      - Embeddings
-      - Vector Search
-      - Classification
-      - Tokenization
-      - Machine Learning
-    serviceName: Lucidworks Embeddings and Classification API
-    serviceCategory: API
-  - name: Lucidworks Signals API
-    baseURL: https://api.lucidworks.ai
-    tags:
-      - Signals
-      - Analytics
-      - Click Tracking
-      - Commerce
-    serviceName: Lucidworks Signals API
-    serviceCategory: API
-  - name: Lucidworks Rules and Query Rewrites API
-    baseURL: https://api.lucidworks.ai
-    tags:
-      - Business Rules
-      - Query Rewrites
-      - Search Tuning
-      - Commerce
-    serviceName: Lucidworks Rules and Query Rewrites API
-    serviceCategory: API
-  - name: Lucidworks Content Chunking API
-    baseURL: https://api.lucidworks.ai
-    tags:
-      - Chunking
-      - Content Processing
-      - RAG
-      - Indexing
-    serviceName: Lucidworks Content Chunking API
-    serviceCategory: API
-  - name: Lucidworks Model Management API
-    baseURL: https://api.lucidworks.ai
-    tags:
-      - Model Management
-      - MLOps
-      - Deployment
-    serviceName: Lucidworks Model Management API
-    serviceCategory: API
-  - name: Lucidworks Fusion REST API
-    baseURL: ''
-    tags:
-      - Fusion
-      - Enterprise Search
-      - Indexing
-      - Pipelines
-      - Connectors
-    serviceName: Lucidworks Fusion REST API
-    serviceCategory: API
-unitEconomics:
-  - name: Cost per 1K Requests
-    metric: billed_cost / (api_requests / 1000)
-    target: TBD
-  - name: Cost per Active Consumer
-    metric: billed_cost / active_consumers
-    target: TBD
-maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+      - cluster
+principles:
+  - name: Visibility
+    description: Pull tenant query / index / inference metrics from the Lucidworks admin UI; cross-reference
+      against contracted volumes.
+  - name: Allocation
+    description: Map Lucidworks tenants/apps to internal product lines; tag signals events for chargeback.
+  - name: Optimization
+    description: Use rules / query rewrites to reduce inference cost; cache embeddings; tune Fusion cluster
+      sizing to actual load.
+  - name: Accountability
+    description: Owners review contracted-volume burn quarterly; renegotiate at renewal if growth changes
+      mix between AI Platform inference and Fusion compute.
