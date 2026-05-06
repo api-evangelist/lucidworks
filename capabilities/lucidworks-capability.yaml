@@ -1,0 +1,168 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Lucidworks AI Platform API
+  description: The Lucidworks AI Platform API exposes prediction endpoints for FAQ enrichment, keyword extraction, named entity
+    recognition (NER), retrieval augmented generation (RAG), summarization, passthrough LLM calls, and standalone query rewriting.
+    Predictions are submitted by use case and fetched asynchronously by prediction ID.
+  tags:
+  - Lucidworks
+  - API
+  created: '2026-05-06'
+  modified: '2026-05-06'
+capability:
+  consumes:
+  - type: http
+    namespace: lucidworks
+    baseUri: https://api.lucidworks.ai
+    description: Lucidworks AI Platform API HTTP API.
+    authentication:
+      type: bearer
+      token: '{{LUCIDWORKS_TOKEN}}'
+    resources:
+    - name: ai-prediction-usecase-modelid
+      path: /ai/prediction/{useCase}/{modelId}
+      operations:
+      - name: createprediction
+        method: POST
+        description: Create prediction by use case
+        inputParameters:
+        - name: useCase
+          in: path
+          type: string
+          required: true
+        - name: modelId
+          in: path
+          type: string
+          required: true
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: ai-prediction-predictionid
+      path: /ai/prediction/{predictionId}
+      operations:
+      - name: getprediction
+        method: GET
+        description: Get prediction results
+        inputParameters:
+        - name: predictionId
+          in: path
+          type: string
+          required: true
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: oauth2-token
+      path: /oauth2/token
+      operations:
+      - name: requestaccesstoken
+        method: POST
+        description: Request access token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    port: 8080
+    namespace: lucidworks-rest
+    description: REST adapter for Lucidworks AI Platform API.
+    resources:
+    - path: /ai/prediction/{useCase}/{modelId}
+      name: createprediction
+      operations:
+      - method: POST
+        name: createprediction
+        description: Create prediction by use case
+        call: lucidworks.createprediction
+        with:
+          useCase: rest.useCase
+          modelId: rest.modelId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /ai/prediction/{predictionId}
+      name: getprediction
+      operations:
+      - method: GET
+        name: getprediction
+        description: Get prediction results
+        call: lucidworks.getprediction
+        with:
+          predictionId: rest.predictionId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /oauth2/token
+      name: requestaccesstoken
+      operations:
+      - method: POST
+        name: requestaccesstoken
+        description: Request access token
+        call: lucidworks.requestaccesstoken
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    port: 9090
+    namespace: lucidworks-mcp
+    transport: http
+    description: MCP adapter for Lucidworks AI Platform API for AI agent use.
+    tools:
+    - name: createprediction
+      description: Create prediction by use case
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: lucidworks.createprediction
+      with:
+        useCase: tools.useCase
+        modelId: tools.modelId
+      inputParameters:
+      - name: useCase
+        type: string
+        description: useCase
+        required: true
+      - name: modelId
+        type: string
+        description: modelId
+        required: true
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getprediction
+      description: Get prediction results
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: lucidworks.getprediction
+      with:
+        predictionId: tools.predictionId
+      inputParameters:
+      - name: predictionId
+        type: string
+        description: predictionId
+        required: true
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: requestaccesstoken
+      description: Request access token
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: lucidworks.requestaccesstoken
+      outputParameters:
+      - type: object
+        mapping: $.
+binds:
+- namespace: env
+  keys:
+    LUCIDWORKS_TOKEN: LUCIDWORKS_TOKEN
