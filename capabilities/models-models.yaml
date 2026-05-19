@@ -1,0 +1,146 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Lucidworks Model Management API — Models
+  description: 'Lucidworks Model Management API — Models. 3 operations. Lead operation: List all models. Self-contained Naftiko
+    capability covering one Lucidworks business surface.'
+  tags:
+  - Lucidworks
+  - Models
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    LUCIDWORKS_API_KEY: LUCIDWORKS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: models-models
+    baseUri: https://api.lucidworks.ai
+    description: Lucidworks Model Management API — Models business capability. Self-contained, no shared references.
+    resources:
+    - name: ai-models
+      path: /ai/models
+      operations:
+      - name: listmodels
+        method: GET
+        description: List all models
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createmodel
+        method: POST
+        description: Create a model
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: ai-models-modelId
+      path: /ai/models/{modelId}
+      operations:
+      - name: getmodel
+        method: GET
+        description: Get a model
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: modelId
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.LUCIDWORKS_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: models-models-rest
+    port: 8080
+    description: REST adapter for Lucidworks Model Management API — Models. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/ai/models
+      name: ai-models
+      description: REST surface for ai-models.
+      operations:
+      - method: GET
+        name: listmodels
+        description: List all models
+        call: models-models.listmodels
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createmodel
+        description: Create a model
+        call: models-models.createmodel
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/ai/models/{modelid}
+      name: ai-models-modelid
+      description: REST surface for ai-models-modelId.
+      operations:
+      - method: GET
+        name: getmodel
+        description: Get a model
+        call: models-models.getmodel
+        with:
+          modelId: rest.modelId
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: models-models-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Lucidworks Model Management API — Models. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: list-all-models
+      description: List all models
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: models-models.listmodels
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-model
+      description: Create a model
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: models-models.createmodel
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-model
+      description: Get a model
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: models-models.getmodel
+      with:
+        modelId: tools.modelId
+      outputParameters:
+      - type: object
+        mapping: $.

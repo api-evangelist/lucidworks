@@ -1,0 +1,324 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Lucidworks Signals API — Signals
+  description: 'Lucidworks Signals API — Signals. 8 operations. Lead operation: Get cart-add signals. Self-contained Naftiko
+    capability covering one Lucidworks business surface.'
+  tags:
+  - Lucidworks
+  - Signals
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    LUCIDWORKS_API_KEY: LUCIDWORKS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: signals-signals
+    baseUri: https://api.lucidworks.ai
+    description: Lucidworks Signals API — Signals business capability. Self-contained, no shared references.
+    resources:
+    - name: signals-cartadd
+      path: /signals/cartadd
+      operations:
+      - name: getcartaddsignals
+        method: GET
+        description: Get cart-add signals
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: recordcartaddsignal
+        method: POST
+        description: Record cart-add signal
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: signals-click
+      path: /signals/click
+      operations:
+      - name: getclicksignals
+        method: GET
+        description: Get click signals
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: app
+          in: query
+          type: string
+        - name: from
+          in: query
+          type: string
+        - name: to
+          in: query
+          type: string
+      - name: recordclicksignal
+        method: POST
+        description: Record click signal
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: signals-purchase-complete
+      path: /signals/purchase-complete
+      operations:
+      - name: getpurchasecompletesignals
+        method: GET
+        description: Get purchase-complete signals
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: recordpurchasesignal
+        method: POST
+        description: Record purchase-complete signal
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: signals-query
+      path: /signals/query
+      operations:
+      - name: getquerysignals
+        method: GET
+        description: Get query signals
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: recordquerysignal
+        method: POST
+        description: Record query signal
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.LUCIDWORKS_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: signals-signals-rest
+    port: 8080
+    description: REST adapter for Lucidworks Signals API — Signals. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/signals/cartadd
+      name: signals-cartadd
+      description: REST surface for signals-cartadd.
+      operations:
+      - method: GET
+        name: getcartaddsignals
+        description: Get cart-add signals
+        call: signals-signals.getcartaddsignals
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: recordcartaddsignal
+        description: Record cart-add signal
+        call: signals-signals.recordcartaddsignal
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/signals/click
+      name: signals-click
+      description: REST surface for signals-click.
+      operations:
+      - method: GET
+        name: getclicksignals
+        description: Get click signals
+        call: signals-signals.getclicksignals
+        with:
+          app: rest.app
+          from: rest.from
+          to: rest.to
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: recordclicksignal
+        description: Record click signal
+        call: signals-signals.recordclicksignal
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/signals/purchase-complete
+      name: signals-purchase-complete
+      description: REST surface for signals-purchase-complete.
+      operations:
+      - method: GET
+        name: getpurchasecompletesignals
+        description: Get purchase-complete signals
+        call: signals-signals.getpurchasecompletesignals
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: recordpurchasesignal
+        description: Record purchase-complete signal
+        call: signals-signals.recordpurchasesignal
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/signals/query
+      name: signals-query
+      description: REST surface for signals-query.
+      operations:
+      - method: GET
+        name: getquerysignals
+        description: Get query signals
+        call: signals-signals.getquerysignals
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: recordquerysignal
+        description: Record query signal
+        call: signals-signals.recordquerysignal
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: signals-signals-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Lucidworks Signals API — Signals. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: get-cart-add-signals
+      description: Get cart-add signals
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: signals-signals.getcartaddsignals
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: record-cart-add-signal
+      description: Record cart-add signal
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: signals-signals.recordcartaddsignal
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-click-signals
+      description: Get click signals
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: signals-signals.getclicksignals
+      with:
+        app: tools.app
+        from: tools.from
+        to: tools.to
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: record-click-signal
+      description: Record click signal
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: signals-signals.recordclicksignal
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-purchase-complete-signals
+      description: Get purchase-complete signals
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: signals-signals.getpurchasecompletesignals
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: record-purchase-complete-signal
+      description: Record purchase-complete signal
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: signals-signals.recordpurchasesignal
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-query-signals
+      description: Get query signals
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: signals-signals.getquerysignals
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: record-query-signal
+      description: Record query signal
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: signals-signals.recordquerysignal
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

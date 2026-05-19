@@ -1,0 +1,167 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Lucidworks Model Management API — Deployments
+  description: 'Lucidworks Model Management API — Deployments. 3 operations. Lead operation: List a model''s deployments.
+    Self-contained Naftiko capability covering one Lucidworks business surface.'
+  tags:
+  - Lucidworks
+  - Deployments
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    LUCIDWORKS_API_KEY: LUCIDWORKS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: models-deployments
+    baseUri: https://api.lucidworks.ai
+    description: Lucidworks Model Management API — Deployments business capability. Self-contained, no shared references.
+    resources:
+    - name: ai-models-modelId-deployments
+      path: /ai/models/{modelId}/deployments
+      operations:
+      - name: listmodeldeployments
+        method: GET
+        description: List a model's deployments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: modelId
+          in: path
+          type: string
+          required: true
+      - name: deploycustommodel
+        method: POST
+        description: Deploy a custom model
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: modelId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: ai-models-modelId-deployments-deploymentId
+      path: /ai/models/{modelId}/deployments/{deploymentId}
+      operations:
+      - name: deletedeployment
+        method: DELETE
+        description: Delete a custom model deployment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: modelId
+          in: path
+          type: string
+          required: true
+        - name: deploymentId
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.LUCIDWORKS_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: models-deployments-rest
+    port: 8080
+    description: REST adapter for Lucidworks Model Management API — Deployments. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/ai/models/{modelid}/deployments
+      name: ai-models-modelid-deployments
+      description: REST surface for ai-models-modelId-deployments.
+      operations:
+      - method: GET
+        name: listmodeldeployments
+        description: List a model's deployments
+        call: models-deployments.listmodeldeployments
+        with:
+          modelId: rest.modelId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: deploycustommodel
+        description: Deploy a custom model
+        call: models-deployments.deploycustommodel
+        with:
+          modelId: rest.modelId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/ai/models/{modelid}/deployments/{deploymentid}
+      name: ai-models-modelid-deployments-deploymentid
+      description: REST surface for ai-models-modelId-deployments-deploymentId.
+      operations:
+      - method: DELETE
+        name: deletedeployment
+        description: Delete a custom model deployment
+        call: models-deployments.deletedeployment
+        with:
+          modelId: rest.modelId
+          deploymentId: rest.deploymentId
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: models-deployments-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Lucidworks Model Management API — Deployments. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: list-model-s-deployments
+      description: List a model's deployments
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: models-deployments.listmodeldeployments
+      with:
+        modelId: tools.modelId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: deploy-custom-model
+      description: Deploy a custom model
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: models-deployments.deploycustommodel
+      with:
+        modelId: tools.modelId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-custom-model-deployment
+      description: Delete a custom model deployment
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: models-deployments.deletedeployment
+      with:
+        modelId: tools.modelId
+        deploymentId: tools.deploymentId
+      outputParameters:
+      - type: object
+        mapping: $.

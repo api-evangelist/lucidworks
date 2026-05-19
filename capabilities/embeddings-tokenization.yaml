@@ -1,0 +1,87 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Lucidworks Embeddings and Classification API — Tokenization
+  description: 'Lucidworks Embeddings and Classification API — Tokenization. 1 operations. Lead operation: Tokenize text.
+    Self-contained Naftiko capability covering one Lucidworks business surface.'
+  tags:
+  - Lucidworks
+  - Tokenization
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    LUCIDWORKS_API_KEY: LUCIDWORKS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: embeddings-tokenization
+    baseUri: https://api.lucidworks.ai
+    description: Lucidworks Embeddings and Classification API — Tokenization business capability. Self-contained, no shared
+      references.
+    resources:
+    - name: ai-tokenize-modelId
+      path: /ai/tokenize/{modelId}
+      operations:
+      - name: tokenize
+        method: POST
+        description: Tokenize text
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: modelId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.LUCIDWORKS_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: embeddings-tokenization-rest
+    port: 8080
+    description: REST adapter for Lucidworks Embeddings and Classification API — Tokenization. One Spectral-compliant resource
+      per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/ai/tokenize/{modelid}
+      name: ai-tokenize-modelid
+      description: REST surface for ai-tokenize-modelId.
+      operations:
+      - method: POST
+        name: tokenize
+        description: Tokenize text
+        call: embeddings-tokenization.tokenize
+        with:
+          modelId: rest.modelId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: embeddings-tokenization-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Lucidworks Embeddings and Classification API — Tokenization. One tool per consumed operation,
+      routed inline through this capability's consumes block.
+    tools:
+    - name: tokenize-text
+      description: Tokenize text
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: embeddings-tokenization.tokenize
+      with:
+        modelId: tools.modelId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

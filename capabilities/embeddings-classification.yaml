@@ -1,0 +1,135 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Lucidworks Embeddings and Classification API — Classification
+  description: 'Lucidworks Embeddings and Classification API — Classification. 2 operations. Lead operation: Classify text.
+    Self-contained Naftiko capability covering one Lucidworks business surface.'
+  tags:
+  - Lucidworks
+  - Classification
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    LUCIDWORKS_API_KEY: LUCIDWORKS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: embeddings-classification
+    baseUri: https://api.lucidworks.ai
+    description: Lucidworks Embeddings and Classification API — Classification business capability. Self-contained, no shared
+      references.
+    resources:
+    - name: ai-classify-modelId
+      path: /ai/classify/{modelId}
+      operations:
+      - name: classifytext
+        method: POST
+        description: Classify text
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: modelId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: ai-predict-modelId
+      path: /ai/predict/{modelId}
+      operations:
+      - name: customprediction
+        method: POST
+        description: Custom model prediction
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: modelId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.LUCIDWORKS_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: embeddings-classification-rest
+    port: 8080
+    description: REST adapter for Lucidworks Embeddings and Classification API — Classification. One Spectral-compliant resource
+      per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/ai/classify/{modelid}
+      name: ai-classify-modelid
+      description: REST surface for ai-classify-modelId.
+      operations:
+      - method: POST
+        name: classifytext
+        description: Classify text
+        call: embeddings-classification.classifytext
+        with:
+          modelId: rest.modelId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/ai/predict/{modelid}
+      name: ai-predict-modelid
+      description: REST surface for ai-predict-modelId.
+      operations:
+      - method: POST
+        name: customprediction
+        description: Custom model prediction
+        call: embeddings-classification.customprediction
+        with:
+          modelId: rest.modelId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: embeddings-classification-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Lucidworks Embeddings and Classification API — Classification. One tool per consumed operation,
+      routed inline through this capability's consumes block.
+    tools:
+    - name: classify-text
+      description: Classify text
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: embeddings-classification.classifytext
+      with:
+        modelId: tools.modelId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: custom-model-prediction
+      description: Custom model prediction
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: embeddings-classification.customprediction
+      with:
+        modelId: tools.modelId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

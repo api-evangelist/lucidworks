@@ -1,0 +1,134 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Lucidworks AI Platform API — Predictions
+  description: 'Lucidworks AI Platform API — Predictions. 2 operations. Lead operation: Create prediction by use case. Self-contained
+    Naftiko capability covering one Lucidworks business surface.'
+  tags:
+  - Lucidworks
+  - Predictions
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    LUCIDWORKS_API_KEY: LUCIDWORKS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: ai-platform-predictions
+    baseUri: https://api.lucidworks.ai
+    description: Lucidworks AI Platform API — Predictions business capability. Self-contained, no shared references.
+    resources:
+    - name: ai-prediction-useCase-modelId
+      path: /ai/prediction/{useCase}/{modelId}
+      operations:
+      - name: createprediction
+        method: POST
+        description: Create prediction by use case
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: useCase
+          in: path
+          type: string
+          required: true
+        - name: modelId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: oauth2-token
+      path: /oauth2/token
+      operations:
+      - name: requestaccesstoken
+        method: POST
+        description: Request access token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.LUCIDWORKS_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: ai-platform-predictions-rest
+    port: 8080
+    description: REST adapter for Lucidworks AI Platform API — Predictions. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/ai/prediction/{usecase}/{modelid}
+      name: ai-prediction-usecase-modelid
+      description: REST surface for ai-prediction-useCase-modelId.
+      operations:
+      - method: POST
+        name: createprediction
+        description: Create prediction by use case
+        call: ai-platform-predictions.createprediction
+        with:
+          useCase: rest.useCase
+          modelId: rest.modelId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/oauth2/token
+      name: oauth2-token
+      description: REST surface for oauth2-token.
+      operations:
+      - method: POST
+        name: requestaccesstoken
+        description: Request access token
+        call: ai-platform-predictions.requestaccesstoken
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: ai-platform-predictions-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Lucidworks AI Platform API — Predictions. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: create-prediction-use-case
+      description: Create prediction by use case
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: ai-platform-predictions.createprediction
+      with:
+        useCase: tools.useCase
+        modelId: tools.modelId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: request-access-token
+      description: Request access token
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: ai-platform-predictions.requestaccesstoken
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

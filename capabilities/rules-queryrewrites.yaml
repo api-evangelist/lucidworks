@@ -1,0 +1,221 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Lucidworks Rules and Query Rewrites API — QueryRewrites
+  description: 'Lucidworks Rules and Query Rewrites API — QueryRewrites. 5 operations. Lead operation: List query rewrites.
+    Self-contained Naftiko capability covering one Lucidworks business surface.'
+  tags:
+  - Lucidworks
+  - QueryRewrites
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    LUCIDWORKS_API_KEY: LUCIDWORKS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: rules-queryrewrites
+    baseUri: https://api.lucidworks.ai
+    description: Lucidworks Rules and Query Rewrites API — QueryRewrites business capability. Self-contained, no shared references.
+    resources:
+    - name: query-rewrites
+      path: /query-rewrites
+      operations:
+      - name: listqueryrewrites
+        method: GET
+        description: List query rewrites
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createqueryrewrite
+        method: POST
+        description: Create a query rewrite
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: query-rewrites-rewriteId
+      path: /query-rewrites/{rewriteId}
+      operations:
+      - name: getqueryrewrite
+        method: GET
+        description: Get a query rewrite
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: rewriteId
+          in: path
+          type: string
+          required: true
+      - name: updatequeryrewrite
+        method: PUT
+        description: Update a query rewrite
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: rewriteId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletequeryrewrite
+        method: DELETE
+        description: Delete a query rewrite
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: rewriteId
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.LUCIDWORKS_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: rules-queryrewrites-rest
+    port: 8080
+    description: REST adapter for Lucidworks Rules and Query Rewrites API — QueryRewrites. One Spectral-compliant resource
+      per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/query-rewrites
+      name: query-rewrites
+      description: REST surface for query-rewrites.
+      operations:
+      - method: GET
+        name: listqueryrewrites
+        description: List query rewrites
+        call: rules-queryrewrites.listqueryrewrites
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createqueryrewrite
+        description: Create a query rewrite
+        call: rules-queryrewrites.createqueryrewrite
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/query-rewrites/{rewriteid}
+      name: query-rewrites-rewriteid
+      description: REST surface for query-rewrites-rewriteId.
+      operations:
+      - method: GET
+        name: getqueryrewrite
+        description: Get a query rewrite
+        call: rules-queryrewrites.getqueryrewrite
+        with:
+          rewriteId: rest.rewriteId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatequeryrewrite
+        description: Update a query rewrite
+        call: rules-queryrewrites.updatequeryrewrite
+        with:
+          rewriteId: rest.rewriteId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletequeryrewrite
+        description: Delete a query rewrite
+        call: rules-queryrewrites.deletequeryrewrite
+        with:
+          rewriteId: rest.rewriteId
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: rules-queryrewrites-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Lucidworks Rules and Query Rewrites API — QueryRewrites. One tool per consumed operation,
+      routed inline through this capability's consumes block.
+    tools:
+    - name: list-query-rewrites
+      description: List query rewrites
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: rules-queryrewrites.listqueryrewrites
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-query-rewrite
+      description: Create a query rewrite
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: rules-queryrewrites.createqueryrewrite
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-query-rewrite
+      description: Get a query rewrite
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: rules-queryrewrites.getqueryrewrite
+      with:
+        rewriteId: tools.rewriteId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-query-rewrite
+      description: Update a query rewrite
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: rules-queryrewrites.updatequeryrewrite
+      with:
+        rewriteId: tools.rewriteId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-query-rewrite
+      description: Delete a query rewrite
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: rules-queryrewrites.deletequeryrewrite
+      with:
+        rewriteId: tools.rewriteId
+      outputParameters:
+      - type: object
+        mapping: $.
