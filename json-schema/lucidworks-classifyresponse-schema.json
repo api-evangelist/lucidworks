@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ClassifyResponse",
+  "title": "ClassifyResponse",
+  "type": "object",
+  "properties": {
+    "labels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "score": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  }
+}

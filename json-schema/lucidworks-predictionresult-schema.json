@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PredictionResult",
+  "title": "PredictionResult",
+  "type": "object",
+  "properties": {
+    "predictionId": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

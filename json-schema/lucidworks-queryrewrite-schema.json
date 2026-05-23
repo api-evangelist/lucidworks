@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/QueryRewrite",
+  "title": "QueryRewrite",
+  "type": "object",
+  "required": [
+    "source"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "target": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "synonym",
+        "redirect",
+        "boost",
+        "bury"
+      ]
+    },
+    "enabled": {
+      "type": "boolean"
+    }
+  }
+}

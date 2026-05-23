@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/TokenRequest",
+  "title": "TokenRequest",
+  "type": "object",
+  "required": [
+    "grant_type",
+    "client_id",
+    "client_secret"
+  ],
+  "properties": {
+    "grant_type": {
+      "type": "string",
+      "example": "client_credentials"
+    },
+    "client_id": {
+      "type": "string"
+    },
+    "client_secret": {
+      "type": "string"
+    }
+  }
+}

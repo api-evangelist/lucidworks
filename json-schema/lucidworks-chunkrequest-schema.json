@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ChunkRequest",
+  "title": "ChunkRequest",
+  "type": "object",
+  "required": [
+    "input"
+  ],
+  "properties": {
+    "input": {
+      "type": "string"
+    },
+    "maxTokens": {
+      "type": "integer"
+    },
+    "overlap": {
+      "type": "integer"
+    },
+    "regex": {
+      "type": "string"
+    }
+  }
+}

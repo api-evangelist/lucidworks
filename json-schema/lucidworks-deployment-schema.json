@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Deployment",
+  "title": "Deployment",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "modelId": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "replicas": {
+      "type": "integer"
+    }
+  }
+}

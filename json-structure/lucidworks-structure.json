@@ -1,0 +1,118 @@
+{
+  "provider": "Lucidworks",
+  "providerId": "lucidworks",
+  "kind": "json-structure",
+  "description": "Structural overview of the Lucidworks API surface; extracted from openapi/.",
+  "schemaCount": 2,
+  "operationCount": 10,
+  "schemas": [
+    {
+      "name": "Rule",
+      "type": "object",
+      "propertyCount": 6,
+      "required": [
+        "name"
+      ]
+    },
+    {
+      "name": "QueryRewrite",
+      "type": "object",
+      "propertyCount": 5,
+      "required": [
+        "source"
+      ]
+    }
+  ],
+  "operations": [
+    {
+      "method": "GET",
+      "path": "/rules",
+      "operationId": "listRules",
+      "summary": "List rules",
+      "tags": [
+        "Rules"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/rules",
+      "operationId": "createRule",
+      "summary": "Create a rule",
+      "tags": [
+        "Rules"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/rules/{ruleId}",
+      "operationId": "getRule",
+      "summary": "Get a rule",
+      "tags": [
+        "Rules"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/rules/{ruleId}",
+      "operationId": "updateRule",
+      "summary": "Update a rule",
+      "tags": [
+        "Rules"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/rules/{ruleId}",
+      "operationId": "deleteRule",
+      "summary": "Delete a rule",
+      "tags": [
+        "Rules"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/query-rewrites",
+      "operationId": "listQueryRewrites",
+      "summary": "List query rewrites",
+      "tags": [
+        "QueryRewrites"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/query-rewrites",
+      "operationId": "createQueryRewrite",
+      "summary": "Create a query rewrite",
+      "tags": [
+        "QueryRewrites"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/query-rewrites/{rewriteId}",
+      "operationId": "getQueryRewrite",
+      "summary": "Get a query rewrite",
+      "tags": [
+        "QueryRewrites"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/query-rewrites/{rewriteId}",
+      "operationId": "updateQueryRewrite",
+      "summary": "Update a query rewrite",
+      "tags": [
+        "QueryRewrites"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/query-rewrites/{rewriteId}",
+      "operationId": "deleteQueryRewrite",
+      "summary": "Delete a query rewrite",
+      "tags": [
+        "QueryRewrites"
+      ]
+    }
+  ]
+}

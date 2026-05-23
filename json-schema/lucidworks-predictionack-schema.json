@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PredictionAck",
+  "title": "PredictionAck",
+  "type": "object",
+  "properties": {
+    "predictionId": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    }
+  }
+}

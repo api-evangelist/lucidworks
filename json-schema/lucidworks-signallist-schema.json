@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SignalList",
+  "title": "SignalList",
+  "type": "object",
+  "properties": {
+    "signals": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Signal"
+      }
+    },
+    "count": {
+      "type": "integer"
+    }
+  }
+}

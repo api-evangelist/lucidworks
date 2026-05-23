@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Rule",
+  "title": "Rule",
+  "type": "object",
+  "required": [
+    "name"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "condition": {
+      "type": "string"
+    },
+    "action": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "enabled": {
+      "type": "boolean"
+    }
+  }
+}

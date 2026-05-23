@@ -1,0 +1,9 @@
+name: Lucidworks Domain Vocabulary
+provider: Lucidworks
+providerId: lucidworks
+description: Tag-derived vocabulary for the Lucidworks API surface; sourced from openapi/ tags.
+terms:
+- term: Rules
+  description: Manage custom business rules
+- term: QueryRewrites
+  description: Manage query rewrite rules
