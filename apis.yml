@@ -187,6 +187,8 @@ common:
     url: https://doc.lucidworks.com/docs/5/fusion/dev-portal/connectors-sdk/overview
   - type: Blog
     url: https://lucidworks.com/blog
+  - type: LLMsTxt
+    url: https://lucidworks.ai/llms.txt
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
