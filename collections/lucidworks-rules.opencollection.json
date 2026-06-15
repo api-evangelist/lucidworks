@@ -1,0 +1,200 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Lucidworks Rules and Query Rewrites API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Rules",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List rules",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.lucidworks.ai/rules"
+          },
+          "docs": "List rules"
+        },
+        {
+          "info": {
+            "name": "Create a rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.lucidworks.ai/rules",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a rule"
+        },
+        {
+          "info": {
+            "name": "Get a rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.lucidworks.ai/rules/:ruleId",
+            "params": [
+              {
+                "name": "ruleId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a rule"
+        },
+        {
+          "info": {
+            "name": "Update a rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.lucidworks.ai/rules/:ruleId",
+            "params": [
+              {
+                "name": "ruleId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a rule"
+        },
+        {
+          "info": {
+            "name": "Delete a rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.lucidworks.ai/rules/:ruleId",
+            "params": [
+              {
+                "name": "ruleId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a rule"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "QueryRewrites",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List query rewrites",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.lucidworks.ai/query-rewrites"
+          },
+          "docs": "List query rewrites"
+        },
+        {
+          "info": {
+            "name": "Create a query rewrite",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.lucidworks.ai/query-rewrites",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a query rewrite"
+        },
+        {
+          "info": {
+            "name": "Get a query rewrite",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.lucidworks.ai/query-rewrites/:rewriteId",
+            "params": [
+              {
+                "name": "rewriteId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a query rewrite"
+        },
+        {
+          "info": {
+            "name": "Update a query rewrite",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.lucidworks.ai/query-rewrites/:rewriteId",
+            "params": [
+              {
+                "name": "rewriteId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a query rewrite"
+        },
+        {
+          "info": {
+            "name": "Delete a query rewrite",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.lucidworks.ai/query-rewrites/:rewriteId",
+            "params": [
+              {
+                "name": "rewriteId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a query rewrite"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

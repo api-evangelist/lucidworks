@@ -1,0 +1,139 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Lucidworks Model Management API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Models",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all models",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.lucidworks.ai/ai/models"
+          },
+          "docs": "List all models"
+        },
+        {
+          "info": {
+            "name": "Create a model",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.lucidworks.ai/ai/models",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a model"
+        },
+        {
+          "info": {
+            "name": "Get a model",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.lucidworks.ai/ai/models/:modelId",
+            "params": [
+              {
+                "name": "modelId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a model"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Deployments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List a model's deployments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.lucidworks.ai/ai/models/:modelId/deployments",
+            "params": [
+              {
+                "name": "modelId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List a model's deployments"
+        },
+        {
+          "info": {
+            "name": "Deploy a custom model",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.lucidworks.ai/ai/models/:modelId/deployments",
+            "params": [
+              {
+                "name": "modelId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Deploy a custom model"
+        },
+        {
+          "info": {
+            "name": "Delete a custom model deployment",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.lucidworks.ai/ai/models/:modelId/deployments/:deploymentId",
+            "params": [
+              {
+                "name": "modelId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "deploymentId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a custom model deployment"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

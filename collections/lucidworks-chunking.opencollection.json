@@ -1,0 +1,64 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Lucidworks Content Chunking API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Chunking",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Chunk text using the specified chunker",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.lucidworks.ai/ai/chunk/:chunker",
+            "params": [
+              {
+                "name": "chunker",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Chunk text using the specified chunker"
+        },
+        {
+          "info": {
+            "name": "Get chunking results",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.lucidworks.ai/ai/chunk/results/:chunkingId",
+            "params": [
+              {
+                "name": "chunkingId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get chunking results"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

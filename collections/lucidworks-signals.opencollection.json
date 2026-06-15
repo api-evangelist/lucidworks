@@ -1,0 +1,145 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Lucidworks Signals API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Signals",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get click signals",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.lucidworks.ai/signals/click",
+            "params": [
+              {
+                "name": "app",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get click signals"
+        },
+        {
+          "info": {
+            "name": "Record click signal",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.lucidworks.ai/signals/click",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Record click signal"
+        },
+        {
+          "info": {
+            "name": "Get query signals",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.lucidworks.ai/signals/query"
+          },
+          "docs": "Get query signals"
+        },
+        {
+          "info": {
+            "name": "Record query signal",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.lucidworks.ai/signals/query",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Record query signal"
+        },
+        {
+          "info": {
+            "name": "Get cart-add signals",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.lucidworks.ai/signals/cartadd"
+          },
+          "docs": "Get cart-add signals"
+        },
+        {
+          "info": {
+            "name": "Record cart-add signal",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.lucidworks.ai/signals/cartadd",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Record cart-add signal"
+        },
+        {
+          "info": {
+            "name": "Get purchase-complete signals",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.lucidworks.ai/signals/purchase-complete"
+          },
+          "docs": "Get purchase-complete signals"
+        },
+        {
+          "info": {
+            "name": "Record purchase-complete signal",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.lucidworks.ai/signals/purchase-complete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Record purchase-complete signal"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

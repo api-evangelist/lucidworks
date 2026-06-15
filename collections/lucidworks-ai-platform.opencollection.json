@@ -1,0 +1,92 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Lucidworks AI Platform API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Predictions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create prediction by use case",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.lucidworks.ai/ai/prediction/:useCase/:modelId",
+            "params": [
+              {
+                "name": "useCase",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "modelId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit a prediction request for the specified use case (faq-enrichment, keyword-extraction, ner, rag, summarization, passthrough, or query-rewriter) using the given model ID."
+        },
+        {
+          "info": {
+            "name": "Request access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.lucidworks.ai/oauth2/token",
+            "body": {
+              "type": "form-urlencoded",
+              "data": []
+            }
+          },
+          "docs": "Exchange client credentials for a bearer access token."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Results",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get prediction results",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.lucidworks.ai/ai/prediction/:predictionId",
+            "params": [
+              {
+                "name": "predictionId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve the results of a previously submitted prediction by ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

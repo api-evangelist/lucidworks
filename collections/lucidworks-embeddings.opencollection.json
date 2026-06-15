@@ -1,0 +1,128 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Lucidworks Embeddings and Classification API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Embeddings",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Encode text to embedding",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.lucidworks.ai/ai/encode/:modelId",
+            "params": [
+              {
+                "name": "modelId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generate a 768-dimensional vector encoding from input text."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Classification",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Classify text",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.lucidworks.ai/ai/classify/:modelId",
+            "params": [
+              {
+                "name": "modelId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Return ranked labels for the given input text."
+        },
+        {
+          "info": {
+            "name": "Custom model prediction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.lucidworks.ai/ai/predict/:modelId",
+            "params": [
+              {
+                "name": "modelId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Invoke a custom deployed model for prediction."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Tokenization",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Tokenize text",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.lucidworks.ai/ai/tokenize/:modelId",
+            "params": [
+              {
+                "name": "modelId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Return token IDs and tokens for the input text."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
