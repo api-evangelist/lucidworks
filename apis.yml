@@ -172,11 +172,11 @@ common:
     url: https://doc.lucidworks.com/api-reference
   - type: Authentication
     url: https://doc.lucidworks.com/api-reference/request-access-token/request-access-token
-  - type: SDK
+  - type: SDKs
     url: https://doc.lucidworks.com/docs/5/fusion/dev-portal/connectors-sdk/overview
   - type: Blog
     url: https://lucidworks.com/blog
-  - type: LLMsTxt
+  - type: LlmsText
     url: https://lucidworks.ai/llms.txt
 maintainers:
   - FN: Kin Lane
