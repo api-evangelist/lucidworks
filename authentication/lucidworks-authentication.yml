@@ -1,0 +1,20 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/lucidworks-ai-platform-openapi.yml, openapi/lucidworks-chunking-openapi.yml,
+  openapi/lucidworks-embeddings-openapi.yml, openapi/lucidworks-models-openapi.yml, openapi/lucidworks-rules-openapi.yml,
+  openapi/lucidworks-signals-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  sources:
+  - openapi/lucidworks-ai-platform-openapi.yml
+  - openapi/lucidworks-chunking-openapi.yml
+  - openapi/lucidworks-embeddings-openapi.yml
+  - openapi/lucidworks-models-openapi.yml
+  - openapi/lucidworks-rules-openapi.yml
+  - openapi/lucidworks-signals-openapi.yml

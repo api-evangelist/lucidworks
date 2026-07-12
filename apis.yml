@@ -160,6 +160,12 @@ apis:
       - type: Documentation
         url: https://legacydoc.lucidworks.com/fusion/5.7/331/custom-rules-api
 common:
+  - type: TrustCenter
+    url: security/lucidworks-trust-center.yml
+  - type: DomainSecurity
+    url: security/lucidworks-domain-security.yml
+  - type: Authentication
+    url: authentication/lucidworks-authentication.yml
   - type: GitHubOrganization
     url: https://github.com/lucidworks
   - type: LinkedIn
