@@ -2,16 +2,13 @@
   "repo": "lucidworks",
   "feeds": [
     {
-      "source": "https://lucidworks.com/blog",
+      "source": "https://doc.lucidworks.com/docs/5/fusion/dev-portal/connectors-sdk/overview",
+      "feed_url": "https://doc.lucidworks.com/docs/5/fusion/dev-portal/connectors-sdk/overview",
+      "title": "",
       "saved": 0,
-      "error": "HTTP 403 Forbidden"
-    },
-    {
-      "source": "https://lucidworks.com/blog/feed/",
-      "saved": 0,
-      "error": "HTTP 403 Forbidden"
+      "method": "none"
     }
   ],
   "post_count": 0,
-  "fetched": "2026-06-27T12:53:02Z"
+  "fetched": "2026-07-11T11:50:51Z"
 }
