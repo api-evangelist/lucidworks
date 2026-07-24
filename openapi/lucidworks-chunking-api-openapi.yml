@@ -1,0 +1,116 @@
+openapi: 3.1.0
+info:
+  title: Lucidworks AI Platform Chunking API
+  description: The Lucidworks AI Platform API exposes prediction endpoints for FAQ enrichment, keyword extraction, named entity recognition (NER), retrieval augmented generation (RAG), summarization, passthrough LLM calls, and standalone query rewriting. Predictions are submitted by use case and fetched asynchronously by prediction ID.
+  version: 1.0.0
+  contact:
+    name: Lucidworks Support
+    url: https://lucidworks.com/support
+  license:
+    name: Lucidworks Terms of Service
+    url: https://lucidworks.com/terms
+servers:
+- url: https://api.lucidworks.ai
+  description: Lucidworks AI production environment
+security:
+- bearerAuth: []
+tags:
+- name: Chunking
+  description: Split content into chunks
+paths:
+  /ai/chunk/{chunker}:
+    post:
+      tags:
+      - Chunking
+      summary: Chunk text using the specified chunker
+      operationId: chunkText
+      parameters:
+      - name: chunker
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - dynamic-sentence
+          - semantic
+          - regex
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChunkRequest'
+      responses:
+        '202':
+          description: Chunking job accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChunkAck'
+  /ai/chunk/results/{chunkingId}:
+    get:
+      tags:
+      - Chunking
+      summary: Get chunking results
+      operationId: getChunkingResults
+      parameters:
+      - name: chunkingId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Chunking result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChunkResult'
+components:
+  schemas:
+    ChunkResult:
+      type: object
+      properties:
+        chunkingId:
+          type: string
+        status:
+          type: string
+        chunks:
+          type: array
+          items:
+            type: object
+            properties:
+              text:
+                type: string
+              tokens:
+                type: integer
+              index:
+                type: integer
+    ChunkRequest:
+      type: object
+      required:
+      - input
+      properties:
+        input:
+          type: string
+        maxTokens:
+          type: integer
+        overlap:
+          type: integer
+        regex:
+          type: string
+    ChunkAck:
+      type: object
+      properties:
+        chunkingId:
+          type: string
+        status:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+externalDocs:
+  description: Lucidworks AI Platform API Reference
+  url: https://doc.lucidworks.com/api-reference

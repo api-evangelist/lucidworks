@@ -1,0 +1,134 @@
+openapi: 3.1.0
+info:
+  title: Lucidworks AI Platform Chunking Rules API
+  description: The Lucidworks AI Platform API exposes prediction endpoints for FAQ enrichment, keyword extraction, named entity recognition (NER), retrieval augmented generation (RAG), summarization, passthrough LLM calls, and standalone query rewriting. Predictions are submitted by use case and fetched asynchronously by prediction ID.
+  version: 1.0.0
+  contact:
+    name: Lucidworks Support
+    url: https://lucidworks.com/support
+  license:
+    name: Lucidworks Terms of Service
+    url: https://lucidworks.com/terms
+servers:
+- url: https://api.lucidworks.ai
+  description: Lucidworks AI production environment
+security:
+- bearerAuth: []
+tags:
+- name: Rules
+  description: Manage custom business rules
+paths:
+  /rules:
+    get:
+      tags:
+      - Rules
+      summary: List rules
+      operationId: listRules
+      responses:
+        '200':
+          description: Rule list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rule'
+    post:
+      tags:
+      - Rules
+      summary: Create a rule
+      operationId: createRule
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Rule'
+      responses:
+        '201':
+          description: Rule created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rule'
+  /rules/{ruleId}:
+    get:
+      tags:
+      - Rules
+      summary: Get a rule
+      operationId: getRule
+      parameters:
+      - name: ruleId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Rule
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rule'
+    put:
+      tags:
+      - Rules
+      summary: Update a rule
+      operationId: updateRule
+      parameters:
+      - name: ruleId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Rule'
+      responses:
+        '200':
+          description: Rule updated
+    delete:
+      tags:
+      - Rules
+      summary: Delete a rule
+      operationId: deleteRule
+      parameters:
+      - name: ruleId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Rule deleted
+components:
+  schemas:
+    Rule:
+      type: object
+      required:
+      - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        condition:
+          type: string
+        action:
+          type: object
+          additionalProperties: true
+        enabled:
+          type: boolean
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+externalDocs:
+  description: Lucidworks AI Platform API Reference
+  url: https://doc.lucidworks.com/api-reference

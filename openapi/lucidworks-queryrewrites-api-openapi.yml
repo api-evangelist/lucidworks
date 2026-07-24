@@ -1,0 +1,132 @@
+openapi: 3.1.0
+info:
+  title: Lucidworks AI Platform Chunking QueryRewrites API
+  description: The Lucidworks AI Platform API exposes prediction endpoints for FAQ enrichment, keyword extraction, named entity recognition (NER), retrieval augmented generation (RAG), summarization, passthrough LLM calls, and standalone query rewriting. Predictions are submitted by use case and fetched asynchronously by prediction ID.
+  version: 1.0.0
+  contact:
+    name: Lucidworks Support
+    url: https://lucidworks.com/support
+  license:
+    name: Lucidworks Terms of Service
+    url: https://lucidworks.com/terms
+servers:
+- url: https://api.lucidworks.ai
+  description: Lucidworks AI production environment
+security:
+- bearerAuth: []
+tags:
+- name: QueryRewrites
+  description: Manage query rewrite rules
+paths:
+  /query-rewrites:
+    get:
+      tags:
+      - QueryRewrites
+      summary: List query rewrites
+      operationId: listQueryRewrites
+      responses:
+        '200':
+          description: Query rewrite list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/QueryRewrite'
+    post:
+      tags:
+      - QueryRewrites
+      summary: Create a query rewrite
+      operationId: createQueryRewrite
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRewrite'
+      responses:
+        '201':
+          description: Query rewrite created
+  /query-rewrites/{rewriteId}:
+    get:
+      tags:
+      - QueryRewrites
+      summary: Get a query rewrite
+      operationId: getQueryRewrite
+      parameters:
+      - name: rewriteId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Query rewrite
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryRewrite'
+    put:
+      tags:
+      - QueryRewrites
+      summary: Update a query rewrite
+      operationId: updateQueryRewrite
+      parameters:
+      - name: rewriteId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRewrite'
+      responses:
+        '200':
+          description: Query rewrite updated
+    delete:
+      tags:
+      - QueryRewrites
+      summary: Delete a query rewrite
+      operationId: deleteQueryRewrite
+      parameters:
+      - name: rewriteId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Query rewrite deleted
+components:
+  schemas:
+    QueryRewrite:
+      type: object
+      required:
+      - source
+      properties:
+        id:
+          type: string
+        source:
+          type: string
+        target:
+          type: string
+        type:
+          type: string
+          enum:
+          - synonym
+          - redirect
+          - boost
+          - bury
+        enabled:
+          type: boolean
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+externalDocs:
+  description: Lucidworks AI Platform API Reference
+  url: https://doc.lucidworks.com/api-reference

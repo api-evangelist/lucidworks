@@ -1,0 +1,60 @@
+openapi: 3.1.0
+info:
+  title: Lucidworks AI Platform Chunking Results API
+  description: The Lucidworks AI Platform API exposes prediction endpoints for FAQ enrichment, keyword extraction, named entity recognition (NER), retrieval augmented generation (RAG), summarization, passthrough LLM calls, and standalone query rewriting. Predictions are submitted by use case and fetched asynchronously by prediction ID.
+  version: 1.0.0
+  contact:
+    name: Lucidworks Support
+    url: https://lucidworks.com/support
+  license:
+    name: Lucidworks Terms of Service
+    url: https://lucidworks.com/terms
+servers:
+- url: https://api.lucidworks.ai
+  description: Lucidworks AI production environment
+security:
+- bearerAuth: []
+tags:
+- name: Results
+  description: Fetch prediction results
+paths:
+  /ai/prediction/{predictionId}:
+    get:
+      tags:
+      - Results
+      summary: Get prediction results
+      description: Retrieve the results of a previously submitted prediction by ID.
+      operationId: getPrediction
+      parameters:
+      - name: predictionId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Prediction result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PredictionResult'
+components:
+  schemas:
+    PredictionResult:
+      type: object
+      properties:
+        predictionId:
+          type: string
+        status:
+          type: string
+        output:
+          type: object
+          additionalProperties: true
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+externalDocs:
+  description: Lucidworks AI Platform API Reference
+  url: https://doc.lucidworks.com/api-reference

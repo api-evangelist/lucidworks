@@ -1,47 +1,44 @@
 openapi: 3.1.0
 info:
-  title: Lucidworks Signals API
-  description: >-
-    The Signals API captures and retrieves user behavior signals for click,
-    query, cart-add, and purchase-complete events. Signals power relevance
-    tuning, recommendations, and analytics across Lucidworks Commerce Studio
-    and Analytics Studio.
-  version: '1.0.0'
+  title: Lucidworks AI Platform Chunking Signals API
+  description: The Lucidworks AI Platform API exposes prediction endpoints for FAQ enrichment, keyword extraction, named entity recognition (NER), retrieval augmented generation (RAG), summarization, passthrough LLM calls, and standalone query rewriting. Predictions are submitted by use case and fetched asynchronously by prediction ID.
+  version: 1.0.0
   contact:
     name: Lucidworks Support
     url: https://lucidworks.com/support
-externalDocs:
-  description: Lucidworks Signals API Reference
-  url: https://doc.lucidworks.com/api-reference/get-signals/click-signals
+  license:
+    name: Lucidworks Terms of Service
+    url: https://lucidworks.com/terms
 servers:
-  - url: https://api.lucidworks.ai
+- url: https://api.lucidworks.ai
+  description: Lucidworks AI production environment
 security:
-  - bearerAuth: []
+- bearerAuth: []
 tags:
-  - name: Signals
-    description: Capture and retrieve user behavior signals
+- name: Signals
+  description: Capture and retrieve user behavior signals
 paths:
   /signals/click:
     get:
       tags:
-        - Signals
+      - Signals
       summary: Get click signals
       operationId: getClickSignals
       parameters:
-        - name: app
-          in: query
-          schema:
-            type: string
-        - name: from
-          in: query
-          schema:
-            type: string
-            format: date-time
-        - name: to
-          in: query
-          schema:
-            type: string
-            format: date-time
+      - name: app
+        in: query
+        schema:
+          type: string
+      - name: from
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: to
+        in: query
+        schema:
+          type: string
+          format: date-time
       responses:
         '200':
           description: Click signals
@@ -51,7 +48,7 @@ paths:
                 $ref: '#/components/schemas/SignalList'
     post:
       tags:
-        - Signals
+      - Signals
       summary: Record click signal
       operationId: recordClickSignal
       requestBody:
@@ -66,7 +63,7 @@ paths:
   /signals/query:
     get:
       tags:
-        - Signals
+      - Signals
       summary: Get query signals
       operationId: getQuerySignals
       responses:
@@ -78,7 +75,7 @@ paths:
                 $ref: '#/components/schemas/SignalList'
     post:
       tags:
-        - Signals
+      - Signals
       summary: Record query signal
       operationId: recordQuerySignal
       requestBody:
@@ -93,7 +90,7 @@ paths:
   /signals/cartadd:
     get:
       tags:
-        - Signals
+      - Signals
       summary: Get cart-add signals
       operationId: getCartAddSignals
       responses:
@@ -105,7 +102,7 @@ paths:
                 $ref: '#/components/schemas/SignalList'
     post:
       tags:
-        - Signals
+      - Signals
       summary: Record cart-add signal
       operationId: recordCartAddSignal
       requestBody:
@@ -120,7 +117,7 @@ paths:
   /signals/purchase-complete:
     get:
       tags:
-        - Signals
+      - Signals
       summary: Get purchase-complete signals
       operationId: getPurchaseCompleteSignals
       responses:
@@ -132,7 +129,7 @@ paths:
                 $ref: '#/components/schemas/SignalList'
     post:
       tags:
-        - Signals
+      - Signals
       summary: Record purchase-complete signal
       operationId: recordPurchaseSignal
       requestBody:
@@ -145,11 +142,6 @@ paths:
         '201':
           description: Signal recorded
 components:
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
   schemas:
     Signal:
       type: object
@@ -175,3 +167,11 @@ components:
             $ref: '#/components/schemas/Signal'
         count:
           type: integer
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+externalDocs:
+  description: Lucidworks AI Platform API Reference
+  url: https://doc.lucidworks.com/api-reference

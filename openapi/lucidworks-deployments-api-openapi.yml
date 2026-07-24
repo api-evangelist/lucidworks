@@ -1,0 +1,102 @@
+openapi: 3.1.0
+info:
+  title: Lucidworks AI Platform Chunking Deployments API
+  description: The Lucidworks AI Platform API exposes prediction endpoints for FAQ enrichment, keyword extraction, named entity recognition (NER), retrieval augmented generation (RAG), summarization, passthrough LLM calls, and standalone query rewriting. Predictions are submitted by use case and fetched asynchronously by prediction ID.
+  version: 1.0.0
+  contact:
+    name: Lucidworks Support
+    url: https://lucidworks.com/support
+  license:
+    name: Lucidworks Terms of Service
+    url: https://lucidworks.com/terms
+servers:
+- url: https://api.lucidworks.ai
+  description: Lucidworks AI production environment
+security:
+- bearerAuth: []
+tags:
+- name: Deployments
+  description: Manage model deployments
+paths:
+  /ai/models/{modelId}/deployments:
+    get:
+      tags:
+      - Deployments
+      summary: List a model's deployments
+      operationId: listModelDeployments
+      parameters:
+      - name: modelId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Deployments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Deployment'
+    post:
+      tags:
+      - Deployments
+      summary: Deploy a custom model
+      operationId: deployCustomModel
+      parameters:
+      - name: modelId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Deployment'
+      responses:
+        '201':
+          description: Deployment created
+  /ai/models/{modelId}/deployments/{deploymentId}:
+    delete:
+      tags:
+      - Deployments
+      summary: Delete a custom model deployment
+      operationId: deleteDeployment
+      parameters:
+      - name: modelId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: deploymentId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Deployment deleted
+components:
+  schemas:
+    Deployment:
+      type: object
+      properties:
+        id:
+          type: string
+        modelId:
+          type: string
+        status:
+          type: string
+        replicas:
+          type: integer
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+externalDocs:
+  description: Lucidworks AI Platform API Reference
+  url: https://doc.lucidworks.com/api-reference

@@ -1,0 +1,73 @@
+openapi: 3.1.0
+info:
+  title: Lucidworks AI Platform Chunking Embeddings API
+  description: The Lucidworks AI Platform API exposes prediction endpoints for FAQ enrichment, keyword extraction, named entity recognition (NER), retrieval augmented generation (RAG), summarization, passthrough LLM calls, and standalone query rewriting. Predictions are submitted by use case and fetched asynchronously by prediction ID.
+  version: 1.0.0
+  contact:
+    name: Lucidworks Support
+    url: https://lucidworks.com/support
+  license:
+    name: Lucidworks Terms of Service
+    url: https://lucidworks.com/terms
+servers:
+- url: https://api.lucidworks.ai
+  description: Lucidworks AI production environment
+security:
+- bearerAuth: []
+tags:
+- name: Embeddings
+  description: Generate vector encodings
+paths:
+  /ai/encode/{modelId}:
+    post:
+      tags:
+      - Embeddings
+      summary: Encode text to embedding
+      description: Generate a 768-dimensional vector encoding from input text.
+      operationId: encodeText
+      parameters:
+      - name: modelId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EncodeRequest'
+      responses:
+        '200':
+          description: Embedding vector
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Embedding'
+components:
+  schemas:
+    Embedding:
+      type: object
+      properties:
+        embedding:
+          type: array
+          items:
+            type: number
+        dimensions:
+          type: integer
+          example: 768
+    EncodeRequest:
+      type: object
+      required:
+      - input
+      properties:
+        input:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+externalDocs:
+  description: Lucidworks AI Platform API Reference
+  url: https://doc.lucidworks.com/api-reference

@@ -1,0 +1,105 @@
+openapi: 3.1.0
+info:
+  title: Lucidworks AI Platform Chunking Classification API
+  description: The Lucidworks AI Platform API exposes prediction endpoints for FAQ enrichment, keyword extraction, named entity recognition (NER), retrieval augmented generation (RAG), summarization, passthrough LLM calls, and standalone query rewriting. Predictions are submitted by use case and fetched asynchronously by prediction ID.
+  version: 1.0.0
+  contact:
+    name: Lucidworks Support
+    url: https://lucidworks.com/support
+  license:
+    name: Lucidworks Terms of Service
+    url: https://lucidworks.com/terms
+servers:
+- url: https://api.lucidworks.ai
+  description: Lucidworks AI production environment
+security:
+- bearerAuth: []
+tags:
+- name: Classification
+  description: Predict ranked labels
+paths:
+  /ai/classify/{modelId}:
+    post:
+      tags:
+      - Classification
+      summary: Classify text
+      description: Return ranked labels for the given input text.
+      operationId: classifyText
+      parameters:
+      - name: modelId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClassifyRequest'
+      responses:
+        '200':
+          description: Classification result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassifyResponse'
+  /ai/predict/{modelId}:
+    post:
+      tags:
+      - Classification
+      summary: Custom model prediction
+      description: Invoke a custom deployed model for prediction.
+      operationId: customPrediction
+      parameters:
+      - name: modelId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Prediction result
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+components:
+  schemas:
+    ClassifyRequest:
+      type: object
+      required:
+      - input
+      properties:
+        input:
+          type: string
+        topK:
+          type: integer
+    ClassifyResponse:
+      type: object
+      properties:
+        labels:
+          type: array
+          items:
+            type: object
+            properties:
+              label:
+                type: string
+              score:
+                type: number
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+externalDocs:
+  description: Lucidworks AI Platform API Reference
+  url: https://doc.lucidworks.com/api-reference
