@@ -1,7 +1,20 @@
 aid: lucidworks
 name: Lucidworks
 url: https://raw.githubusercontent.com/api-evangelist/lucidworks/refs/heads/main/apis.yml
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: enterprise
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Enterprise · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/lucidworks.png
 type: Index
 position: Consumer
 access: 3rd-Party
@@ -21,144 +34,333 @@ description: >-
   Analytics Studio expose REST APIs for prediction, embedding, classification, signals capture, query rewriting, custom
   rule management, content chunking, and model deployment.
 apis:
-  - aid: lucidworks:ai-platform
-    name: Lucidworks AI Platform API
-    description: >-
-      The Lucidworks AI Platform API exposes prediction endpoints for FAQ enrichment, keyword extraction, named entity
-      recognition, retrieval augmented generation (RAG), summarization, passthrough LLM calls, and query rewriting.
-      Developers can invoke pre-built use cases or chain custom predictions, then fetch results asynchronously by
-      prediction ID.
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://doc.lucidworks.com/api-reference
-    baseURL: https://api.lucidworks.ai
-    tags:
-      - Artificial Intelligence
-      - Predictions
-      - RAG
-      - Summarization
-      - NER
-      - LLM
-    properties:
-      - type: Documentation
-        url: https://doc.lucidworks.com/api-reference
-      - type: Authentication
-        url: https://doc.lucidworks.com/api-reference/request-access-token/request-access-token
-      - type: OpenAPI
-        url: openapi/lucidworks-ai-platform-openapi.yml
-  - aid: lucidworks:embeddings
-    name: Lucidworks Embeddings and Classification API
-    description: >-
-      The Embeddings and Classification API generates 768-dimensional vector encodings using the English Language Model
-      text encoder, returns ranked classification labels, exposes custom model predictions, and tokenizes inputs by
-      model ID for use in vector search and downstream ML pipelines.
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://doc.lucidworks.com/api-reference
-    baseURL: https://api.lucidworks.ai
-    tags:
-      - Embeddings
-      - Vector Search
-      - Classification
-      - Tokenization
-      - Machine Learning
-    properties:
-      - type: Documentation
-        url: https://doc.lucidworks.com/api-reference/get-predictions/english-language-model-text-encoder
-      - type: OpenAPI
-        url: openapi/lucidworks-embeddings-openapi.yml
-  - aid: lucidworks:signals
-    name: Lucidworks Signals API
-    description: >-
-      The Signals API captures and retrieves user behavior signals for click, query, cart-add, and purchase-complete
-      events. Signals power relevance tuning, recommendations, and analytics across Commerce Studio and the Analytics
-      Studio.
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://doc.lucidworks.com/api-reference
-    baseURL: https://api.lucidworks.ai
-    tags:
-      - Signals
-      - Analytics
-      - Click Tracking
-      - Commerce
-    properties:
-      - type: Documentation
-        url: https://doc.lucidworks.com/api-reference/get-signals/click-signals
-      - type: OpenAPI
-        url: openapi/lucidworks-signals-openapi.yml
-  - aid: lucidworks:rules
-    name: Lucidworks Rules and Query Rewrites API
-    description: >-
-      The Rules and Query Rewrites API allows commerce and search teams to create, read, update, and delete custom
-      business rules and query rewrites. Rules drive boost, bury, pin, redirect, and synonym behaviors that personalize
-      search results without code changes.
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://doc.lucidworks.com/api-reference/rule-management/list-rules
-    baseURL: https://api.lucidworks.ai
-    tags:
-      - Business Rules
-      - Query Rewrites
-      - Search Tuning
-      - Commerce
-    properties:
-      - type: Documentation
-        url: https://doc.lucidworks.com/api-reference/rule-management/list-rules
-      - type: Documentation
-        url: https://doc.lucidworks.com/api-reference/query-rewrite-management/list-query-rewrites
-      - type: OpenAPI
-        url: openapi/lucidworks-rules-openapi.yml
-  - aid: lucidworks:chunking
-    name: Lucidworks Content Chunking API
-    description: >-
-      The Content Chunking API splits long-form content into retrieval-ready passages using dynamic-sentence chunkers,
-      semantic chunkers, and regex splitters. Chunked output feeds vector indexing and RAG pipelines.
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://doc.lucidworks.com/api-reference/split-content-into-chunks/chunk-text-using-the-specified-chunker
-    baseURL: https://api.lucidworks.ai
-    tags:
-      - Chunking
-      - Content Processing
-      - RAG
-      - Indexing
-    properties:
-      - type: Documentation
-        url: https://doc.lucidworks.com/api-reference/split-content-into-chunks/chunk-text-using-the-specified-chunker
-      - type: OpenAPI
-        url: openapi/lucidworks-chunking-openapi.yml
-  - aid: lucidworks:models
-    name: Lucidworks Model Management API
-    description: >-
-      The Model Management API lets teams create, get, list, deploy, and delete models used by Lucidworks AI. Custom
-      models can be registered and deployed alongside the default catalog for inference at query and indexing time.
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://doc.lucidworks.com/api-reference/manage-models/list-all-models
-    baseURL: https://api.lucidworks.ai
-    tags:
-      - Model Management
-      - MLOps
-      - Deployment
-    properties:
-      - type: Documentation
-        url: https://doc.lucidworks.com/api-reference/manage-models/list-all-models
-      - type: OpenAPI
-        url: openapi/lucidworks-models-openapi.yml
-  - aid: lucidworks:fusion
-    name: Lucidworks Fusion REST API
-    description: >-
-      Fusion REST APIs administer collections, indexing pipelines, query pipelines, connectors, and search apps inside
-      the Lucidworks Fusion platform. The legacy Custom Rules API for Fusion 5.7 is part of this family of
-      administrative endpoints.
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://doc.lucidworks.com/docs/5/fusion/dev-portal/rest-apis
-    tags:
-      - Fusion
-      - Enterprise Search
-      - Indexing
-      - Pipelines
-      - Connectors
-    properties:
-      - type: Documentation
-        url: https://doc.lucidworks.com/docs/5/fusion/dev-portal/rest-apis
-      - type: Documentation
-        url: https://legacydoc.lucidworks.com/fusion/5.7/331/custom-rules-api
+- aid: lucidworks:fusion
+  name: Lucidworks Fusion REST API
+  description: >-
+    Fusion REST APIs administer collections, indexing pipelines, query pipelines, connectors, and search
+    apps inside the Lucidworks Fusion platform. The legacy Custom Rules API for Fusion 5.7 is part of
+    this family of administrative endpoints.
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://doc.lucidworks.com/docs/5/fusion/dev-portal/rest-apis
+  tags:
+  - Fusion
+  - Enterprise Search
+  - Indexing
+  - Pipelines
+  - Connectors
+  properties:
+  - type: Documentation
+    url: https://doc.lucidworks.com/docs/5/fusion/dev-portal/rest-apis
+  - type: Documentation
+    url: https://legacydoc.lucidworks.com/fusion/5.7/331/custom-rules-api
+- aid: lucidworks:lucidworks-chunking-api
+  name: Lucidworks Chunking API
+  description: Split content into chunks
+  humanURL: https://doc.lucidworks.com/api-reference
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Chunking
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-chunking-api-openapi.yml
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference
+  - type: Authentication
+    url: https://doc.lucidworks.com/api-reference/request-access-token/request-access-token
+  - type: Documentation
+    url: >-
+      https://doc.lucidworks.com/api-reference/get-predictions/english-language-model-text-encoder
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/get-signals/click-signals
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/rule-management/list-rules
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/query-rewrite-management/list-query-rewrites
+  - type: Documentation
+    url: >-
+      https://doc.lucidworks.com/api-reference/split-content-into-chunks/chunk-text-using-the-specified-chunker
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/manage-models/list-all-models
+- aid: lucidworks:lucidworks-classification-api
+  name: Lucidworks Classification API
+  description: Predict ranked labels
+  humanURL: https://doc.lucidworks.com/api-reference
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Classification
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-classification-api-openapi.yml
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference
+  - type: Authentication
+    url: https://doc.lucidworks.com/api-reference/request-access-token/request-access-token
+  - type: Documentation
+    url: >-
+      https://doc.lucidworks.com/api-reference/get-predictions/english-language-model-text-encoder
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/get-signals/click-signals
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/rule-management/list-rules
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/query-rewrite-management/list-query-rewrites
+  - type: Documentation
+    url: >-
+      https://doc.lucidworks.com/api-reference/split-content-into-chunks/chunk-text-using-the-specified-chunker
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/manage-models/list-all-models
+- aid: lucidworks:lucidworks-deployments-api
+  name: Lucidworks Deployments API
+  description: Manage model deployments
+  humanURL: https://doc.lucidworks.com/api-reference
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Deployments
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-deployments-api-openapi.yml
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference
+  - type: Authentication
+    url: https://doc.lucidworks.com/api-reference/request-access-token/request-access-token
+  - type: Documentation
+    url: >-
+      https://doc.lucidworks.com/api-reference/get-predictions/english-language-model-text-encoder
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/get-signals/click-signals
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/rule-management/list-rules
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/query-rewrite-management/list-query-rewrites
+  - type: Documentation
+    url: >-
+      https://doc.lucidworks.com/api-reference/split-content-into-chunks/chunk-text-using-the-specified-chunker
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/manage-models/list-all-models
+- aid: lucidworks:lucidworks-embeddings-api
+  name: Lucidworks Embeddings API
+  description: Generate vector encodings
+  humanURL: https://doc.lucidworks.com/api-reference
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Embeddings
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-embeddings-api-openapi.yml
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference
+  - type: Authentication
+    url: https://doc.lucidworks.com/api-reference/request-access-token/request-access-token
+  - type: Documentation
+    url: >-
+      https://doc.lucidworks.com/api-reference/get-predictions/english-language-model-text-encoder
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/get-signals/click-signals
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/rule-management/list-rules
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/query-rewrite-management/list-query-rewrites
+  - type: Documentation
+    url: >-
+      https://doc.lucidworks.com/api-reference/split-content-into-chunks/chunk-text-using-the-specified-chunker
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/manage-models/list-all-models
+- aid: lucidworks:lucidworks-models-api
+  name: Lucidworks Models API
+  description: Manage models
+  humanURL: https://doc.lucidworks.com/api-reference
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Models
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-models-api-openapi.yml
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference
+  - type: Authentication
+    url: https://doc.lucidworks.com/api-reference/request-access-token/request-access-token
+  - type: Documentation
+    url: >-
+      https://doc.lucidworks.com/api-reference/get-predictions/english-language-model-text-encoder
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/get-signals/click-signals
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/rule-management/list-rules
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/query-rewrite-management/list-query-rewrites
+  - type: Documentation
+    url: >-
+      https://doc.lucidworks.com/api-reference/split-content-into-chunks/chunk-text-using-the-specified-chunker
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/manage-models/list-all-models
+- aid: lucidworks:lucidworks-predictions-api
+  name: Lucidworks Predictions API
+  description: Submit prediction requests by use case
+  humanURL: https://doc.lucidworks.com/api-reference
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Predictions
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-predictions-api-openapi.yml
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference
+  - type: Authentication
+    url: https://doc.lucidworks.com/api-reference/request-access-token/request-access-token
+  - type: Documentation
+    url: >-
+      https://doc.lucidworks.com/api-reference/get-predictions/english-language-model-text-encoder
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/get-signals/click-signals
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/rule-management/list-rules
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/query-rewrite-management/list-query-rewrites
+  - type: Documentation
+    url: >-
+      https://doc.lucidworks.com/api-reference/split-content-into-chunks/chunk-text-using-the-specified-chunker
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/manage-models/list-all-models
+- aid: lucidworks:lucidworks-queryrewrites-api
+  name: Lucidworks QueryRewrites API
+  description: Manage query rewrite rules
+  humanURL: https://doc.lucidworks.com/api-reference
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - QueryRewrites
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-queryrewrites-api-openapi.yml
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference
+  - type: Authentication
+    url: https://doc.lucidworks.com/api-reference/request-access-token/request-access-token
+  - type: Documentation
+    url: >-
+      https://doc.lucidworks.com/api-reference/get-predictions/english-language-model-text-encoder
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/get-signals/click-signals
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/rule-management/list-rules
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/query-rewrite-management/list-query-rewrites
+  - type: Documentation
+    url: >-
+      https://doc.lucidworks.com/api-reference/split-content-into-chunks/chunk-text-using-the-specified-chunker
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/manage-models/list-all-models
+- aid: lucidworks:lucidworks-results-api
+  name: Lucidworks Results API
+  description: Fetch prediction results
+  humanURL: https://doc.lucidworks.com/api-reference
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Results
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-results-api-openapi.yml
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference
+  - type: Authentication
+    url: https://doc.lucidworks.com/api-reference/request-access-token/request-access-token
+  - type: Documentation
+    url: >-
+      https://doc.lucidworks.com/api-reference/get-predictions/english-language-model-text-encoder
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/get-signals/click-signals
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/rule-management/list-rules
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/query-rewrite-management/list-query-rewrites
+  - type: Documentation
+    url: >-
+      https://doc.lucidworks.com/api-reference/split-content-into-chunks/chunk-text-using-the-specified-chunker
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/manage-models/list-all-models
+- aid: lucidworks:lucidworks-rules-api
+  name: Lucidworks Rules API
+  description: Manage custom business rules
+  humanURL: https://doc.lucidworks.com/api-reference
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Rules
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-rules-api-openapi.yml
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference
+  - type: Authentication
+    url: https://doc.lucidworks.com/api-reference/request-access-token/request-access-token
+  - type: Documentation
+    url: >-
+      https://doc.lucidworks.com/api-reference/get-predictions/english-language-model-text-encoder
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/get-signals/click-signals
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/rule-management/list-rules
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/query-rewrite-management/list-query-rewrites
+  - type: Documentation
+    url: >-
+      https://doc.lucidworks.com/api-reference/split-content-into-chunks/chunk-text-using-the-specified-chunker
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/manage-models/list-all-models
+- aid: lucidworks:lucidworks-signals-api
+  name: Lucidworks Signals API
+  description: Capture and retrieve user behavior signals
+  humanURL: https://doc.lucidworks.com/api-reference
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Signals
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-signals-api-openapi.yml
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference
+  - type: Authentication
+    url: https://doc.lucidworks.com/api-reference/request-access-token/request-access-token
+  - type: Documentation
+    url: >-
+      https://doc.lucidworks.com/api-reference/get-predictions/english-language-model-text-encoder
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/get-signals/click-signals
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/rule-management/list-rules
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/query-rewrite-management/list-query-rewrites
+  - type: Documentation
+    url: >-
+      https://doc.lucidworks.com/api-reference/split-content-into-chunks/chunk-text-using-the-specified-chunker
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/manage-models/list-all-models
+- aid: lucidworks:lucidworks-tokenization-api
+  name: Lucidworks Tokenization API
+  description: Tokenize text by model
+  humanURL: https://doc.lucidworks.com/api-reference
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Tokenization
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-tokenization-api-openapi.yml
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference
+  - type: Authentication
+    url: https://doc.lucidworks.com/api-reference/request-access-token/request-access-token
+  - type: Documentation
+    url: >-
+      https://doc.lucidworks.com/api-reference/get-predictions/english-language-model-text-encoder
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/get-signals/click-signals
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/rule-management/list-rules
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/query-rewrite-management/list-query-rewrites
+  - type: Documentation
+    url: >-
+      https://doc.lucidworks.com/api-reference/split-content-into-chunks/chunk-text-using-the-specified-chunker
+  - type: Documentation
+    url: https://doc.lucidworks.com/api-reference/manage-models/list-all-models
 common:
   - type: AgenticAccess
     url: agentic-access/lucidworks-agentic-access.yml
