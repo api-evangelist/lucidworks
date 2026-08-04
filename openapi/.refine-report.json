@@ -1,0 +1,34 @@
+{
+  "provider": "lucidworks",
+  "sources": [
+    "lucidworks-chunking-api-openapi.yml",
+    "lucidworks-classification-api-openapi.yml",
+    "lucidworks-deployments-api-openapi.yml",
+    "lucidworks-embeddings-api-openapi.yml",
+    "lucidworks-models-api-openapi.yml",
+    "lucidworks-predictions-api-openapi.yml",
+    "lucidworks-queryrewrites-api-openapi.yml",
+    "lucidworks-results-api-openapi.yml",
+    "lucidworks-rules-api-openapi.yml",
+    "lucidworks-signals-api-openapi.yml",
+    "lucidworks-tokenization-api-openapi.yml"
+  ],
+  "outputs": [
+    "lucidworks-chunking-api-openapi.yml",
+    "lucidworks-classification-api-openapi.yml",
+    "lucidworks-deployments-api-openapi.yml",
+    "lucidworks-embeddings-api-openapi.yml",
+    "lucidworks-models-api-openapi.yml",
+    "lucidworks-predictions-api-openapi.yml",
+    "lucidworks-queryrewrites-api-openapi.yml",
+    "lucidworks-results-api-openapi.yml",
+    "lucidworks-rules-api-openapi.yml",
+    "lucidworks-signals-api-openapi.yml",
+    "lucidworks-tokenization-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

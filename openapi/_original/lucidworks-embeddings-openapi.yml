@@ -1,0 +1,193 @@
+openapi: 3.1.0
+info:
+  title: Lucidworks Embeddings and Classification API
+  description: >-
+    The Embeddings and Classification API generates 768-dimensional vector
+    encodings using the English Language Model text encoder, returns ranked
+    classification labels, exposes custom model predictions, and tokenizes
+    inputs by model ID. Use these endpoints to power vector search,
+    similarity, and downstream ML pipelines.
+  version: '1.0.0'
+  contact:
+    name: Lucidworks Support
+    url: https://lucidworks.com/support
+externalDocs:
+  description: Lucidworks API Reference
+  url: https://doc.lucidworks.com/api-reference
+servers:
+  - url: https://api.lucidworks.ai
+security:
+  - bearerAuth: []
+tags:
+  - name: Embeddings
+    description: Generate vector encodings
+  - name: Classification
+    description: Predict ranked labels
+  - name: Tokenization
+    description: Tokenize text by model
+paths:
+  /ai/encode/{modelId}:
+    post:
+      tags:
+        - Embeddings
+      summary: Encode text to embedding
+      description: Generate a 768-dimensional vector encoding from input text.
+      operationId: encodeText
+      parameters:
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EncodeRequest'
+      responses:
+        '200':
+          description: Embedding vector
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Embedding'
+  /ai/classify/{modelId}:
+    post:
+      tags:
+        - Classification
+      summary: Classify text
+      description: Return ranked labels for the given input text.
+      operationId: classifyText
+      parameters:
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClassifyRequest'
+      responses:
+        '200':
+          description: Classification result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassifyResponse'
+  /ai/predict/{modelId}:
+    post:
+      tags:
+        - Classification
+      summary: Custom model prediction
+      description: Invoke a custom deployed model for prediction.
+      operationId: customPrediction
+      parameters:
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Prediction result
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /ai/tokenize/{modelId}:
+    post:
+      tags:
+        - Tokenization
+      summary: Tokenize text
+      description: Return token IDs and tokens for the input text.
+      operationId: tokenize
+      parameters:
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - input
+              properties:
+                input:
+                  type: string
+      responses:
+        '200':
+          description: Tokens
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tokens:
+                    type: array
+                    items:
+                      type: string
+                  ids:
+                    type: array
+                    items:
+                      type: integer
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    EncodeRequest:
+      type: object
+      required:
+        - input
+      properties:
+        input:
+          type: string
+    Embedding:
+      type: object
+      properties:
+        embedding:
+          type: array
+          items:
+            type: number
+        dimensions:
+          type: integer
+          example: 768
+    ClassifyRequest:
+      type: object
+      required:
+        - input
+      properties:
+        input:
+          type: string
+        topK:
+          type: integer
+    ClassifyResponse:
+      type: object
+      properties:
+        labels:
+          type: array
+          items:
+            type: object
+            properties:
+              label:
+                type: string
+              score:
+                type: number

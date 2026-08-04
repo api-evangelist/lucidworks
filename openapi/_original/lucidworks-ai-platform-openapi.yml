@@ -1,0 +1,169 @@
+openapi: 3.1.0
+info:
+  title: Lucidworks AI Platform API
+  description: >-
+    The Lucidworks AI Platform API exposes prediction endpoints for FAQ
+    enrichment, keyword extraction, named entity recognition (NER), retrieval
+    augmented generation (RAG), summarization, passthrough LLM calls, and
+    standalone query rewriting. Predictions are submitted by use case and
+    fetched asynchronously by prediction ID.
+  version: '1.0.0'
+  contact:
+    name: Lucidworks Support
+    url: https://lucidworks.com/support
+  license:
+    name: Lucidworks Terms of Service
+    url: https://lucidworks.com/terms
+externalDocs:
+  description: Lucidworks AI Platform API Reference
+  url: https://doc.lucidworks.com/api-reference
+servers:
+  - url: https://api.lucidworks.ai
+    description: Lucidworks AI production environment
+security:
+  - bearerAuth: []
+tags:
+  - name: Predictions
+    description: Submit prediction requests by use case
+  - name: Results
+    description: Fetch prediction results
+paths:
+  /ai/prediction/{useCase}/{modelId}:
+    post:
+      tags:
+        - Predictions
+      summary: Create prediction by use case
+      description: >-
+        Submit a prediction request for the specified use case (faq-enrichment,
+        keyword-extraction, ner, rag, summarization, passthrough, or
+        query-rewriter) using the given model ID.
+      operationId: createPrediction
+      parameters:
+        - name: useCase
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - faq-enrichment
+              - keyword-extraction
+              - ner
+              - rag
+              - summarization
+              - passthrough
+              - query-rewriter
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PredictionRequest'
+      responses:
+        '202':
+          description: Prediction accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PredictionAck'
+  /ai/prediction/{predictionId}:
+    get:
+      tags:
+        - Results
+      summary: Get prediction results
+      description: Retrieve the results of a previously submitted prediction by ID.
+      operationId: getPrediction
+      parameters:
+        - name: predictionId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Prediction result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PredictionResult'
+  /oauth2/token:
+    post:
+      tags:
+        - Predictions
+      summary: Request access token
+      description: Exchange client credentials for a bearer access token.
+      operationId: requestAccessToken
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRequest'
+      responses:
+        '200':
+          description: Token issued
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    PredictionRequest:
+      type: object
+      required:
+        - input
+      properties:
+        input:
+          type: string
+        parameters:
+          type: object
+          additionalProperties: true
+    PredictionAck:
+      type: object
+      properties:
+        predictionId:
+          type: string
+        status:
+          type: string
+    PredictionResult:
+      type: object
+      properties:
+        predictionId:
+          type: string
+        status:
+          type: string
+        output:
+          type: object
+          additionalProperties: true
+    TokenRequest:
+      type: object
+      required:
+        - grant_type
+        - client_id
+        - client_secret
+      properties:
+        grant_type:
+          type: string
+          example: client_credentials
+        client_id:
+          type: string
+        client_secret:
+          type: string
+    TokenResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+        token_type:
+          type: string
+        expires_in:
+          type: integer

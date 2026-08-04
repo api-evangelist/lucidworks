@@ -1,0 +1,238 @@
+openapi: 3.1.0
+info:
+  title: Lucidworks Rules and Query Rewrites API
+  description: >-
+    The Rules and Query Rewrites API allows commerce and search teams to
+    create, read, update, and delete custom business rules and query
+    rewrites. Rules drive boost, bury, pin, redirect, and synonym behaviors
+    that personalize search results without code changes.
+  version: '1.0.0'
+  contact:
+    name: Lucidworks Support
+    url: https://lucidworks.com/support
+externalDocs:
+  description: Lucidworks Rules API Reference
+  url: https://doc.lucidworks.com/api-reference/rule-management/list-rules
+servers:
+  - url: https://api.lucidworks.ai
+security:
+  - bearerAuth: []
+tags:
+  - name: Rules
+    description: Manage custom business rules
+  - name: QueryRewrites
+    description: Manage query rewrite rules
+paths:
+  /rules:
+    get:
+      tags:
+        - Rules
+      summary: List rules
+      operationId: listRules
+      responses:
+        '200':
+          description: Rule list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rule'
+    post:
+      tags:
+        - Rules
+      summary: Create a rule
+      operationId: createRule
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Rule'
+      responses:
+        '201':
+          description: Rule created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rule'
+  /rules/{ruleId}:
+    get:
+      tags:
+        - Rules
+      summary: Get a rule
+      operationId: getRule
+      parameters:
+        - name: ruleId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Rule
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rule'
+    put:
+      tags:
+        - Rules
+      summary: Update a rule
+      operationId: updateRule
+      parameters:
+        - name: ruleId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Rule'
+      responses:
+        '200':
+          description: Rule updated
+    delete:
+      tags:
+        - Rules
+      summary: Delete a rule
+      operationId: deleteRule
+      parameters:
+        - name: ruleId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Rule deleted
+  /query-rewrites:
+    get:
+      tags:
+        - QueryRewrites
+      summary: List query rewrites
+      operationId: listQueryRewrites
+      responses:
+        '200':
+          description: Query rewrite list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/QueryRewrite'
+    post:
+      tags:
+        - QueryRewrites
+      summary: Create a query rewrite
+      operationId: createQueryRewrite
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRewrite'
+      responses:
+        '201':
+          description: Query rewrite created
+  /query-rewrites/{rewriteId}:
+    get:
+      tags:
+        - QueryRewrites
+      summary: Get a query rewrite
+      operationId: getQueryRewrite
+      parameters:
+        - name: rewriteId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Query rewrite
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryRewrite'
+    put:
+      tags:
+        - QueryRewrites
+      summary: Update a query rewrite
+      operationId: updateQueryRewrite
+      parameters:
+        - name: rewriteId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRewrite'
+      responses:
+        '200':
+          description: Query rewrite updated
+    delete:
+      tags:
+        - QueryRewrites
+      summary: Delete a query rewrite
+      operationId: deleteQueryRewrite
+      parameters:
+        - name: rewriteId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Query rewrite deleted
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Rule:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        condition:
+          type: string
+        action:
+          type: object
+          additionalProperties: true
+        enabled:
+          type: boolean
+    QueryRewrite:
+      type: object
+      required:
+        - source
+      properties:
+        id:
+          type: string
+        source:
+          type: string
+        target:
+          type: string
+        type:
+          type: string
+          enum:
+            - synonym
+            - redirect
+            - boost
+            - bury
+        enabled:
+          type: boolean
