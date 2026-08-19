@@ -1,0 +1,738 @@
+{
+  "item": [
+    {
+      "id": "cd027d8d-5131-418c-83f1-3a8781659875",
+      "name": "Signals",
+      "description": {
+        "content": "Capture and retrieve user behavior signals",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8ce7d33a-0a97-472d-8204-93b1422e098a",
+          "name": "Get click signals",
+          "request": {
+            "name": "Get click signals",
+            "description": {},
+            "url": {
+              "path": [
+                "signals",
+                "click"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "app",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "from",
+                  "value": "<dateTime>"
+                },
+                {
+                  "disabled": false,
+                  "key": "to",
+                  "value": "<dateTime>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "19e3f95d-ccf9-4d9a-9f39-3924ba50da28",
+              "name": "Click signals",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signals",
+                    "click"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "app",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "from",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"signals\": [\n    {\n      \"type\": \"string\",\n      \"userId\": \"string\",\n      \"sessionId\": \"string\",\n      \"timestamp\": \"1973-07-29T12:41:22.806Z\",\n      \"params\": {\n        \"key_0\": \"string\",\n        \"key_1\": true\n      }\n    },\n    {\n      \"type\": \"string\",\n      \"userId\": \"string\",\n      \"sessionId\": \"string\",\n      \"timestamp\": \"1996-10-26T17:32:59.042Z\",\n      \"params\": {\n        \"key_0\": false,\n        \"key_1\": true\n      }\n    }\n  ],\n  \"count\": 4358\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8bc951b3-aaef-4a77-9772-caf05a5916a2",
+          "name": "Record click signal",
+          "request": {
+            "name": "Record click signal",
+            "description": {},
+            "url": {
+              "path": [
+                "signals",
+                "click"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"<string>\",\n  \"userId\": \"<string>\",\n  \"sessionId\": \"<string>\",\n  \"timestamp\": \"<dateTime>\",\n  \"params\": {\n    \"key_0\": \"string\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c2d2ab2c-4591-4038-ae4e-19b79aef4fd8",
+              "name": "Signal recorded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signals",
+                    "click"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"<string>\",\n  \"userId\": \"<string>\",\n  \"sessionId\": \"<string>\",\n  \"timestamp\": \"<dateTime>\",\n  \"params\": {\n    \"key_0\": 8892,\n    \"key_1\": true\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "946bebc0-88c4-4d11-846c-6770d4dadac3",
+          "name": "Get query signals",
+          "request": {
+            "name": "Get query signals",
+            "description": {},
+            "url": {
+              "path": [
+                "signals",
+                "query"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "dfc69830-652e-4ab0-852f-d54a3cadf7bc",
+              "name": "Query signals",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signals",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"signals\": [\n    {\n      \"type\": \"string\",\n      \"userId\": \"string\",\n      \"sessionId\": \"string\",\n      \"timestamp\": \"1973-07-29T12:41:22.806Z\",\n      \"params\": {\n        \"key_0\": \"string\",\n        \"key_1\": true\n      }\n    },\n    {\n      \"type\": \"string\",\n      \"userId\": \"string\",\n      \"sessionId\": \"string\",\n      \"timestamp\": \"1996-10-26T17:32:59.042Z\",\n      \"params\": {\n        \"key_0\": false,\n        \"key_1\": true\n      }\n    }\n  ],\n  \"count\": 4358\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "69fd3f29-e6ab-4b3a-b886-1a0f67be3f76",
+          "name": "Record query signal",
+          "request": {
+            "name": "Record query signal",
+            "description": {},
+            "url": {
+              "path": [
+                "signals",
+                "query"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"<string>\",\n  \"userId\": \"<string>\",\n  \"sessionId\": \"<string>\",\n  \"timestamp\": \"<dateTime>\",\n  \"params\": {\n    \"key_0\": \"string\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "11c587b6-ef00-40c5-a498-0b45e9b16106",
+              "name": "Signal recorded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signals",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"<string>\",\n  \"userId\": \"<string>\",\n  \"sessionId\": \"<string>\",\n  \"timestamp\": \"<dateTime>\",\n  \"params\": {\n    \"key_0\": 8892,\n    \"key_1\": true\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7abae713-31b0-4d50-9ccc-3c769f8bacb4",
+          "name": "Get cart-add signals",
+          "request": {
+            "name": "Get cart-add signals",
+            "description": {},
+            "url": {
+              "path": [
+                "signals",
+                "cartadd"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "939c5600-3605-4d4a-8abe-eb57245f7f35",
+              "name": "Cart-add signals",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signals",
+                    "cartadd"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"signals\": [\n    {\n      \"type\": \"string\",\n      \"userId\": \"string\",\n      \"sessionId\": \"string\",\n      \"timestamp\": \"1973-07-29T12:41:22.806Z\",\n      \"params\": {\n        \"key_0\": \"string\",\n        \"key_1\": true\n      }\n    },\n    {\n      \"type\": \"string\",\n      \"userId\": \"string\",\n      \"sessionId\": \"string\",\n      \"timestamp\": \"1996-10-26T17:32:59.042Z\",\n      \"params\": {\n        \"key_0\": false,\n        \"key_1\": true\n      }\n    }\n  ],\n  \"count\": 4358\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "664094c1-e52d-4173-9222-141c666e3862",
+          "name": "Record cart-add signal",
+          "request": {
+            "name": "Record cart-add signal",
+            "description": {},
+            "url": {
+              "path": [
+                "signals",
+                "cartadd"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"<string>\",\n  \"userId\": \"<string>\",\n  \"sessionId\": \"<string>\",\n  \"timestamp\": \"<dateTime>\",\n  \"params\": {\n    \"key_0\": \"string\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9e8b34bb-9d38-43ef-ba40-c39bffd51243",
+              "name": "Signal recorded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signals",
+                    "cartadd"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"<string>\",\n  \"userId\": \"<string>\",\n  \"sessionId\": \"<string>\",\n  \"timestamp\": \"<dateTime>\",\n  \"params\": {\n    \"key_0\": 8892,\n    \"key_1\": true\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e81c832e-5926-4451-94a4-211ead884d0b",
+          "name": "Get purchase-complete signals",
+          "request": {
+            "name": "Get purchase-complete signals",
+            "description": {},
+            "url": {
+              "path": [
+                "signals",
+                "purchase-complete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4d07c42a-40f3-4454-972d-8df79c339f90",
+              "name": "Purchase signals",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signals",
+                    "purchase-complete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"signals\": [\n    {\n      \"type\": \"string\",\n      \"userId\": \"string\",\n      \"sessionId\": \"string\",\n      \"timestamp\": \"1973-07-29T12:41:22.806Z\",\n      \"params\": {\n        \"key_0\": \"string\",\n        \"key_1\": true\n      }\n    },\n    {\n      \"type\": \"string\",\n      \"userId\": \"string\",\n      \"sessionId\": \"string\",\n      \"timestamp\": \"1996-10-26T17:32:59.042Z\",\n      \"params\": {\n        \"key_0\": false,\n        \"key_1\": true\n      }\n    }\n  ],\n  \"count\": 4358\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fb726702-f8b2-4e80-8af0-d93d9dfb70ea",
+          "name": "Record purchase-complete signal",
+          "request": {
+            "name": "Record purchase-complete signal",
+            "description": {},
+            "url": {
+              "path": [
+                "signals",
+                "purchase-complete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"<string>\",\n  \"userId\": \"<string>\",\n  \"sessionId\": \"<string>\",\n  \"timestamp\": \"<dateTime>\",\n  \"params\": {\n    \"key_0\": \"string\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "46ddb996-5f62-439a-b350-81b77a07c0ce",
+              "name": "Signal recorded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signals",
+                    "purchase-complete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"<string>\",\n  \"userId\": \"<string>\",\n  \"sessionId\": \"<string>\",\n  \"timestamp\": \"<dateTime>\",\n  \"params\": {\n    \"key_0\": 8892,\n    \"key_1\": true\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.lucidworks.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "6a5f567f-9485-4422-a85c-b2c11159f261",
+    "name": "Lucidworks AI Platform Chunking Signals API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Lucidworks AI Platform API exposes prediction endpoints for FAQ enrichment, keyword extraction, named entity recognition (NER), retrieval augmented generation (RAG), summarization, passthrough LLM calls, and standalone query rewriting. Predictions are submitted by use case and fetched asynchronously by prediction ID.\n\nContact Support:\n Name: Lucidworks Support",
+      "type": "text/plain"
+    }
+  }
+}
