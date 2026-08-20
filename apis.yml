@@ -115,6 +115,8 @@ apis:
   humanURL: https://doc.lucidworks.com/api-reference
   baseURL: https://api.lucidworks.ai
   tags:
+  - Deployment
+  tags_raw:
   - Deployments
   properties:
   - type: OpenAPI
