@@ -1,34 +1,50 @@
 {
   "provider": "lucidworks",
   "sources": [
-    "lucidworks-chunking-api-openapi.yml",
-    "lucidworks-classification-api-openapi.yml",
-    "lucidworks-deployments-api-openapi.yml",
-    "lucidworks-embeddings-api-openapi.yml",
-    "lucidworks-models-api-openapi.yml",
-    "lucidworks-predictions-api-openapi.yml",
-    "lucidworks-queryrewrites-api-openapi.yml",
-    "lucidworks-results-api-openapi.yml",
-    "lucidworks-rules-api-openapi.yml",
-    "lucidworks-signals-api-openapi.yml",
-    "lucidworks-tokenization-api-openapi.yml"
+    "_original/lucidworks-ai-platform-openapi.yml",
+    "_original/lucidworks-chunking-openapi.yml",
+    "_original/lucidworks-embeddings-openapi.yml",
+    "_original/lucidworks-models-openapi.yml",
+    "_original/lucidworks-rules-openapi.yml",
+    "_original/lucidworks-signals-openapi.yml"
   ],
   "outputs": [
+    "lucidworks-predictions-api-openapi.yml",
+    "lucidworks-results-api-openapi.yml",
     "lucidworks-chunking-api-openapi.yml",
     "lucidworks-classification-api-openapi.yml",
-    "lucidworks-deployments-api-openapi.yml",
     "lucidworks-embeddings-api-openapi.yml",
+    "lucidworks-tokenization-api-openapi.yml",
+    "lucidworks-deployments-api-openapi.yml",
     "lucidworks-models-api-openapi.yml",
-    "lucidworks-predictions-api-openapi.yml",
     "lucidworks-queryrewrites-api-openapi.yml",
-    "lucidworks-results-api-openapi.yml",
     "lucidworks-rules-api-openapi.yml",
-    "lucidworks-signals-api-openapi.yml",
-    "lucidworks-tokenization-api-openapi.yml"
+    "lucidworks-signals-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (6 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "lucidworks-ai-platform-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "lucidworks-chunking-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "lucidworks-embeddings-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "lucidworks-models-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "lucidworks-rules-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "lucidworks-signals-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "lucidworks-chunking-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "lucidworks-classification-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "lucidworks-deployments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "lucidworks-embeddings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "lucidworks-models-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "lucidworks-predictions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "lucidworks-queryrewrites-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "lucidworks-results-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "lucidworks-rules-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "lucidworks-signals-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "lucidworks-tokenization-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
