@@ -42,13 +42,6 @@ paths:
                 $ref: '#/components/schemas/Embedding'
 components:
   schemas:
-    EncodeRequest:
-      type: object
-      required:
-      - input
-      properties:
-        input:
-          type: string
     Embedding:
       type: object
       properties:
@@ -59,6 +52,13 @@ components:
         dimensions:
           type: integer
           example: 768
+    EncodeRequest:
+      type: object
+      required:
+      - input
+      properties:
+        input:
+          type: string
   securitySchemes:
     bearerAuth:
       type: http

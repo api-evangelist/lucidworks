@@ -64,6 +64,19 @@ paths:
                 $ref: '#/components/schemas/ChunkResult'
 components:
   schemas:
+    ChunkRequest:
+      type: object
+      required:
+      - input
+      properties:
+        input:
+          type: string
+        maxTokens:
+          type: integer
+        overlap:
+          type: integer
+        regex:
+          type: string
     ChunkResult:
       type: object
       properties:
@@ -82,19 +95,6 @@ components:
                 type: integer
               index:
                 type: integer
-    ChunkRequest:
-      type: object
-      required:
-      - input
-      properties:
-        input:
-          type: string
-        maxTokens:
-          type: integer
-        overlap:
-          type: integer
-        regex:
-          type: string
     ChunkAck:
       type: object
       properties:
