@@ -64,6 +64,13 @@ paths:
                 $ref: '#/components/schemas/ChunkResult'
 components:
   schemas:
+    ChunkAck:
+      type: object
+      properties:
+        chunkingId:
+          type: string
+        status:
+          type: string
     ChunkRequest:
       type: object
       required:
@@ -95,13 +102,6 @@ components:
                 type: integer
               index:
                 type: integer
-    ChunkAck:
-      type: object
-      properties:
-        chunkingId:
-          type: string
-        status:
-          type: string
   securitySchemes:
     bearerAuth:
       type: http

@@ -70,6 +70,15 @@ paths:
                 additionalProperties: true
 components:
   schemas:
+    ClassifyRequest:
+      type: object
+      required:
+      - input
+      properties:
+        input:
+          type: string
+        topK:
+          type: integer
     ClassifyResponse:
       type: object
       properties:
@@ -82,15 +91,6 @@ components:
                 type: string
               score:
                 type: number
-    ClassifyRequest:
-      type: object
-      required:
-      - input
-      properties:
-        input:
-          type: string
-        topK:
-          type: integer
   securitySchemes:
     bearerAuth:
       type: http
