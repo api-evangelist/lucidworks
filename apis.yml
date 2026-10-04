@@ -30,6 +30,10 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/lucidworks
 type: Index
 position: Consuming
 access: 3rd-Party
+x-docs-platform: mintlify
+x-docs-platform-confidence: medium
+x-docs-platform-checked: 2026-10-03
+x-docs-hosting: vercel
 tags:
   - Search
   - Artificial Intelligence
@@ -376,6 +380,9 @@ apis:
   - type: Documentation
     url: https://doc.lucidworks.com/api-reference/manage-models/list-all-models
 common:
+  - type: CapabilityMap
+    url: capabilities/lucidworks-capability-edges.yml
+    name: Lucidworks Business Capability Map
   - type: AgenticAccess
     url: agentic-access/lucidworks-agentic-access.yml
   - type: TrustCenter
