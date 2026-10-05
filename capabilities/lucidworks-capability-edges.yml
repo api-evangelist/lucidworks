@@ -1,0 +1,62 @@
+slug: lucidworks
+provider: Lucidworks
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 5
+edges:
+- tag: Deployments
+  spec_file: lucidworks-deployments-api-openapi.yml
+  capability_id: BC-610.60
+  capability_id_l1: BC-610
+  capability_name: Artificial Intelligence Management
+  confidence: 0.85
+  evidence: POST /ai/models/{modelId}/deployments 'Deploy a custom model'; 'Custom models can be registered
+    and deployed alongside the default catalog for inference'
+  reason: Model deployment lifecycle is squarely MLOps / AI model lifecycle management.
+- tag: Models
+  spec_file: lucidworks-models-api-openapi.yml
+  capability_id: BC-610.60
+  capability_id_l1: BC-610
+  capability_name: Artificial Intelligence Management
+  confidence: 0.85
+  evidence: '''The Model Management API lets teams create, get, list, deploy, and delete models used by
+    Lucidworks AI''; POST /ai/models ''Create a model'''
+  reason: Explicit ML model registry/lifecycle management — AI/ML model lifecycle, MLOps.
+- tag: Classification
+  spec_file: lucidworks-classification-api-openapi.yml
+  capability_id: BC-610.60
+  capability_id_l1: BC-610
+  capability_name: Artificial Intelligence Management
+  confidence: 0.75
+  evidence: POST /ai/classify/{modelId} 'Classify text'; POST /ai/predict/{modelId} 'Custom model prediction'
+  reason: Running ML model inference (classification, custom predictions) is AI/ML capability delivery,
+    not an industry business process.
+- tag: Embeddings
+  spec_file: lucidworks-embeddings-api-openapi.yml
+  capability_id: BC-610.60
+  capability_id_l1: BC-610
+  capability_name: Artificial Intelligence Management
+  confidence: 0.7
+  evidence: POST /ai/encode/{modelId} 'Encode text to embedding'; 'generates 768-dimensional vector encodings
+    using the English Language Model text encoder'
+  reason: Vector embedding generation is ML model inference, mapping to Artificial Intelligence Management.
+- tag: Predictions
+  spec_file: lucidworks-predictions-api-openapi.yml
+  capability_id: BC-610.60
+  capability_id_l1: BC-610
+  capability_name: Artificial Intelligence Management
+  confidence: 0.7
+  evidence: POST /ai/prediction/{useCase}/{modelId} 'Create prediction by use case'; 'prediction endpoints
+    for FAQ enrichment, keyword extraction, named entity recognition (NER), retrieval augmented generation
+    (RAG), summarization'
+  reason: Submitting ML/LLM inference jobs is AI capability delivery; the bundled OAuth token endpoint
+    is plumbing and does not change the mapping.
