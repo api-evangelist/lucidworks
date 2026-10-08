@@ -380,6 +380,12 @@ apis:
   - type: Documentation
     url: https://doc.lucidworks.com/api-reference/manage-models/list-all-models
 common:
+  - type: Plans
+    url: plans/lucidworks-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/lucidworks-rate-limits.yml
+  - type: FinOps
+    url: finops/lucidworks-finops.yml
   - url: https://lucidworks.com/blog/feed
     type: BlogRSS
   - type: CapabilityMap
