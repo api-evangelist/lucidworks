@@ -139,6 +139,15 @@ paths:
           description: Signal recorded
 components:
   schemas:
+    SignalList:
+      type: object
+      properties:
+        signals:
+          type: array
+          items:
+            $ref: '#/components/schemas/Signal'
+        count:
+          type: integer
     Signal:
       type: object
       properties:
@@ -154,15 +163,6 @@ components:
         params:
           type: object
           additionalProperties: true
-    SignalList:
-      type: object
-      properties:
-        signals:
-          type: array
-          items:
-            $ref: '#/components/schemas/Signal'
-        count:
-          type: integer
   securitySchemes:
     bearerAuth:
       type: http
