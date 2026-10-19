@@ -1,0 +1,1859 @@
+openapi: 3.2.0
+info:
+  title: Fusion Admin Collections API
+  description: These APIs provide general administrative functions for your Fusion instance. Use these APIs to manage Fusion objects, App Studio objects, connections to Solr clusters, license files, job schedules, and more. You can also use them to create a history of service events.
+  termsOfService: https://lucidworks.com/legal/developer-license-agreement/
+  contact:
+    name: Lucidworks
+    url: www.lucidworks.com
+    email: support@lucidworks.com
+  license:
+    name: License of API
+    url: https://lucidworks.com/legal/developer-license-agreement/
+  version: '5.9'
+servers:
+- url: https://{FUSION HOST}/api
+  description: Fusion
+  variables:
+    FUSION HOST:
+      default: FUSION_HOST
+      description: Your environment host.
+- url: https://{FUSION HOST}/api/apps/{APP_NAME}
+  description: Fusion app
+  variables:
+    FUSION HOST:
+      default: FUSION_HOST
+      description: Your environment host.
+    APP_NAME:
+      default: APP_NAME
+      description: The name of your Fusion application.
+tags:
+- name: Collections
+  description: 'The Collections API manages Fusion collections. It provides endpoints for creating, updating, and deleting collection, as well as endpoints for getting a collection''s status and usage statistics.
+
+
+    Fusion maintains internal system collections for logs, blobs, and metrics data which operate in conjunction with collections created by users. The Collections API is used to manage all Fusion collections.'
+paths:
+  /collections/status:
+    get:
+      tags:
+      - Collections
+      summary: Get collections service status
+      description: Check the status of the Collections service.
+      operationId: getStatus_3
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServiceStatus'
+  /collections:
+    get:
+      tags:
+      - Collections
+      summary: List all collections
+      description: Return properties for all existing collections.
+      operationId: getCollections
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Collection'
+    post:
+      tags:
+      - Collections
+      summary: Create a new collection
+      description: Define the properties of a new data collection.
+      operationId: createCollection
+      parameters:
+      - name: pipelines
+        in: query
+        description: A boolean to indicate if pipelines should also be created. This has been deprecated in favor of 'relatedObjects'.
+        schema:
+          type: boolean
+          default: true
+      requestBody:
+        description: JSON-formatted configuration values.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Collection'
+        required: false
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Collection'
+              example:
+                id: newCollection
+                createdAt: '2014-09-19T18:46:52.954Z'
+                searchClusterId: default
+                solrParams:
+                  name: newCollection
+                  numShards: 1
+                  replicationFactor: 1
+                type: DATA
+                metadata: {}
+      x-codegen-request-body-name: body
+  /collections/{collection}:
+    get:
+      tags:
+      - Collections
+      summary: Get a collection
+      description: Return the properties for a specific collection.
+      operationId: getCollection
+      parameters:
+      - name: collection
+        in: path
+        description: The name of a collection.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Collection'
+    put:
+      tags:
+      - Collections
+      summary: Create or update a collection
+      description: Create a new data collection or update an existing one.
+      operationId: overwriteCollection
+      parameters:
+      - name: collection
+        in: path
+        description: The name of a collection.
+        required: true
+        schema:
+          type: string
+      - name: If-Match
+        in: header
+        description: An optional tag to match against the specified blob.
+        schema:
+          type: string
+          default: '-1'
+      requestBody:
+        description: JSON-formatted configuration values.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Collection'
+        required: false
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Collection'
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+      - Collections
+      summary: Delete a collection
+      description: Remove a collection from the system.
+      operationId: deleteCollection
+      parameters:
+      - name: collection
+        in: path
+        description: The name of a collection.
+        required: true
+        schema:
+          type: string
+      - name: solr
+        in: query
+        description: '''True'' to delete the collection from Solr while it is deleted from Fusion.'
+        schema:
+          type: boolean
+          default: false
+      - name: purge
+        in: query
+        description: '''True'' to also delete associated signals and `searchLogs` collections.'
+        schema:
+          type: boolean
+          default: false
+      - name: pipelines
+        in: query
+        description: '''True'' to also delete associated pipelines.'
+        schema:
+          type: boolean
+          default: false
+      - name: If-Match
+        in: header
+        description: An optional tag to match against the specified collection.
+        schema:
+          type: string
+          default: '-1'
+      responses:
+        '200':
+          description: successful operation
+          content: {}
+  /collections/{collection}/stats:
+    get:
+      tags:
+      - Collections
+      summary: Get collection statistics
+      description: Stats include the number of documents in the index, how many requests have been made of the collection, the average request time, and the index size in bytes.
+      operationId: getCollectionMetrics
+      parameters:
+      - name: collection
+        in: path
+        description: The name of a collection.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionMetrics'
+              example:
+                collectionId: demo
+                documentCount: 536
+                requestCount: 6
+                qps: 28.34716542561849
+                sizeInBytes: 7646045
+                lastModified: '2014-05-19T19:58:33.545Z'
+  /collections/{collection}/status:
+    get:
+      tags:
+      - Collections
+      summary: Get collection status
+      description: Status includes the state of each shard and each shard's replica. Each shard will be listed, and within that each replica, including the core name, its status as leader, the base URL, and the node name.
+      operationId: getCollectionStatus
+      parameters:
+      - name: collection
+        in: path
+        description: The name of a collection.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionInfo'
+              example:
+                maxShardsPerNode: 1
+                replicationFactor: 1
+                shards:
+                  shard1:
+                    range: 80000000-7fffffff
+                    state: active
+                    replicas:
+                      core_node1:
+                        state: active
+                        core: demo_shard1_replica1
+                        leader: true
+                        base_url: https://FUSION_HOST:8983/solr
+                        node_name: FUSION_HOST:8983_solr
+  /collections/{collection}/features:
+    get:
+      tags:
+      - Collections
+      summary: Get collection features
+      description: Return all features for a specified collection.
+      operationId: listFeatures
+      parameters:
+      - name: collection
+        in: path
+        description: The name of a collection.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Feature'
+  /collections/{collection}/features/{feature}:
+    get:
+      tags:
+      - Collections
+      summary: Get a feature
+      description: Return all attributes for a specified feature in a collection.
+      operationId: getFeature
+      parameters:
+      - name: collection
+        in: path
+        description: The name of a collection.
+        required: true
+        schema:
+          type: string
+      - name: feature
+        in: path
+        description: 'The feature to update. Allowed values:
+
+
+          - `signals`: Create a parallel collection for storing signals data (such as user clicks or ratings). Signals need to be indexed and aggregated before they can be used.
+
+          - `recommendations`: Get configuration information about recommendations. Parameters include `idField` (document ID field), `itemsForUser` (enable or disable items-for-user recommendations), `itemsForQuery` (enable or disable items-for-query recommendations), `itemsForItem` (enable or disable items-for-item recommendations), and `queriesForQuery` (enable or disable queries-for-query recommendations).'
+        required: true
+        schema:
+          type: string
+          enum:
+          - signals
+          - recommendations
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Feature'
+    put:
+      tags:
+      - Collections
+      summary: Update a feature
+      description: Update a feature's properties.
+      operationId: overwriteFeature
+      parameters:
+      - name: collection
+        in: path
+        description: The name of a collection.
+        required: true
+        schema:
+          type: string
+      - name: feature
+        in: path
+        description: 'The feature to update. Allowed values:
+
+
+          - `signals`: Create a parallel collection for storing signals data (such as user clicks or ratings). Signals need to be indexed and aggregated before they can be used.
+
+          - `recommendations`: Get configuration information about recommendations. Parameters include `idField` (document ID field), `itemsForUser` (enable or disable items-for-user recommendations), `itemsForQuery` (enable or disable items-for-query recommendations), `itemsForItem` (enable or disable items-for-item recommendations), and `queriesForQuery` (enable or disable queries-for-query recommendations).'
+        required: true
+        schema:
+          type: string
+          enum:
+          - signals
+          - recommendations
+      - name: callback
+        in: query
+        description: Additional commands to execute.
+        schema:
+          type: boolean
+          default: true
+      - name: If-Match
+        in: header
+        description: An optional tag to match against the specified feature.
+        schema:
+          type: string
+          default: '-1'
+      requestBody:
+        description: JSON-formatted configuration values.
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+            examples:
+              recommendations:
+                summary: Enable recommendations
+                description: Adds the recommendations feature for the 'tempy' collection with configuration options for ID field and item/query behavior.
+                value:
+                  name: recommendations
+                  collectionId: tempy
+                  params:
+                    idField: id
+                    itemsForUser: true
+                    itemsForQuery: false
+                    itemsForItem: true
+                    queriesForQuery: false
+                  enabled: true
+              signals:
+                summary: Disable signals
+                description: Disables the signals feature for the 'tempy' collection.
+                value:
+                  name: signals
+                  collectionId: tempy
+                  params: {}
+                  enabled: false
+              searchLogs:
+                summary: Disable search logs
+                description: Disables the search logs feature for the 'tempy' collection.
+                value:
+                  name: searchLogs
+                  collectionId: tempy
+                  params: {}
+                  enabled: false
+      responses:
+        '200':
+          description: successful operation
+          content: {}
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+      - Collections
+      summary: Delete a feature
+      description: Remove a feature from a collection.
+      operationId: resetFeature
+      parameters:
+      - name: collection
+        in: path
+        description: The name of a collection.
+        required: true
+        schema:
+          type: string
+      - name: feature
+        in: path
+        description: 'The feature to update. Allowed values:
+
+
+          - `signals`: Create a parallel collection for storing signals data (such as user clicks or ratings). Signals need to be indexed and aggregated before they can be used.
+
+          - `recommendations`: Get configuration information about recommendations. Parameters include `idField` (document ID field), `itemsForUser` (enable or disable items-for-user recommendations), `itemsForQuery` (enable or disable items-for-query recommendations), `itemsForItem` (enable or disable items-for-item recommendations), and `queriesForQuery` (enable or disable queries-for-query recommendations).'
+        required: true
+        schema:
+          type: string
+          enum:
+          - signals
+          - recommendations
+      - name: callback
+        in: query
+        description: Additional commands to execute.
+        schema:
+          type: boolean
+          default: true
+      - name: If-Match
+        in: header
+        description: An optional tag to match against the specified feature.
+        schema:
+          type: string
+          default: '-1'
+      responses:
+        '200':
+          description: successful operation
+          content: {}
+  /collections/{collection}/partitions/status:
+    get:
+      tags:
+      - Collections
+      summary: Get collection partitions status
+      description: Get the status of a collection's partitions.
+      operationId: getStatus_16
+      parameters:
+      - name: collection
+        in: path
+        description: Collection ID.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServiceStatus'
+  /collections/{collection}/partitions:
+    get:
+      tags:
+      - Collections
+      summary: List a collection's partitions
+      description: Returns list of partitions for a given collection.
+      operationId: getPartitions
+      parameters:
+      - name: collection
+        in: path
+        description: Collection ID.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /collections/{collection}/partitions/{partition}:
+    delete:
+      tags:
+      - Collections
+      summary: Delete a partition
+      description: Delete a partition from a collection.
+      operationId: deletePartition
+      parameters:
+      - name: collection
+        in: path
+        description: Collection ID.
+        required: true
+        schema:
+          type: string
+      - name: partition
+        in: path
+        description: Partition ID.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content: {}
+  /collections/{collection}/partitions/_scheduledCallback:
+    post:
+      tags:
+      - Collections
+      summary: Perform partition maintenance
+      description: Perform scheduled background maintenance on partitions for a given collection, such as preemptively creating partitions and deleting expired partitions.
+      operationId: scheduledCallback
+      parameters:
+      - name: collection
+        in: path
+        description: Collection ID.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content: {}
+  /collections/{collection}/partitions/_changed:
+    post:
+      tags:
+      - Collections
+      summary: Update a partition feature
+      description: Change partitioned feature for a collection.
+      operationId: changeCallback
+      parameters:
+      - name: collection
+        in: path
+        description: Collection ID.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Partitioned feature configuration.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Feature'
+        required: false
+      responses:
+        '200':
+          description: successful operation
+          content: {}
+      x-codegen-request-body-name: body
+  /collections/{collection}/partitions/_schema:
+    get:
+      tags:
+      - Collections
+      summary: Get the partition feature schema
+      description: Fetch the partition feature schema for a given collection.
+      operationId: getSchema
+      parameters:
+      - name: collection
+        in: path
+        description: Collection ID.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectType'
+  /collections/{collection}/schema/status:
+    get:
+      tags:
+      - Collections
+      summary: Get collection schema status
+      description: Get the status of a collection's schema.
+      operationId: getStatus_19
+      parameters:
+      - name: collection
+        in: path
+        description: Collection ID.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServiceStatus'
+  /collections/{collection}/schema/fields:
+    get:
+      tags:
+      - Collections
+      summary: List all collection fields
+      description: Returns fields for a given collection.
+      operationId: getFields
+      parameters:
+      - name: collection
+        in: path
+        description: Collection ID.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Field'
+    post:
+      tags:
+      - Collections
+      summary: Create a collection field
+      description: Adds a field to a given collection.
+      operationId: addField
+      parameters:
+      - name: collection
+        in: path
+        description: Collection ID.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Field configuration.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Field'
+        required: false
+      responses:
+        '200':
+          description: successful operation
+          content: {}
+      x-codegen-request-body-name: body
+  /collections/{collection}/schema/fields/{field}:
+    delete:
+      tags:
+      - Collections
+      summary: Delete a collection field
+      description: Deletes a field from a given collection.
+      operationId: deleteField
+      parameters:
+      - name: collection
+        in: path
+        description: Collection ID.
+        required: true
+        schema:
+          type: string
+      - name: field
+        in: path
+        description: Field name.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content: {}
+    put:
+      tags:
+      - Collections
+      summary: Update a collection field
+      description: Updates a field from a given collection.
+      operationId: updateField
+      parameters:
+      - name: collection
+        in: path
+        description: Collection ID.
+        required: true
+        schema:
+          type: string
+      - name: field
+        in: path
+        description: Field name.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Field configuration.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Field'
+        required: false
+      responses:
+        '200':
+          description: successful operation
+          content: {}
+      x-codegen-request-body-name: body
+  /collections/{collection}/schema/fields.schema:
+    get:
+      tags:
+      - Collections
+      summary: Get a collection's fields schema
+      description: Returns fields schema for a given collection.
+      operationId: getSchema_1
+      parameters:
+      - name: collection
+        in: path
+        description: Collection ID.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectType'
+  /collections/{collection}/schema/fieldTypes:
+    get:
+      tags:
+      - Collections
+      summary: List all collection field types
+      description: Returns field types from a given collection.
+      operationId: getFieldTypes
+      parameters:
+      - name: collection
+        in: path
+        description: Collection ID.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SolrFieldType'
+    post:
+      tags:
+      - Collections
+      summary: Create a field type
+      description: Adds a new field type to a given collection.
+      operationId: addFieldType
+      parameters:
+      - name: collection
+        in: path
+        description: Collection ID.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Field type configuration.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SolrFieldType'
+        required: false
+      responses:
+        '200':
+          description: successful operation
+          content: {}
+      x-codegen-request-body-name: body
+  /collections/{collection}/schema/fieldTypes/{fieldTypeId}:
+    put:
+      tags:
+      - Collections
+      summary: Update a field type
+      description: Updates a field type from a given collection.
+      operationId: updateFieldType
+      parameters:
+      - name: collection
+        in: path
+        description: Collection ID.
+        required: true
+        schema:
+          type: string
+      - name: fieldTypeId
+        in: path
+        description: Field type ID.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Field type configuration.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SolrFieldType'
+        required: false
+      responses:
+        '200':
+          description: successful operation
+          content: {}
+      x-codegen-request-body-name: body
+  /collections/{collection}/schema/dynamicfields:
+    get:
+      tags:
+      - Collections
+      summary: List all dynamic fields
+      description: Returns dynamic fields for a given collection.
+      operationId: getDynamicFields
+      parameters:
+      - name: collection
+        in: path
+        description: Collection ID.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DynamicField'
+    post:
+      tags:
+      - Collections
+      summary: Create a dynamic field
+      description: Adds a new dynamic field to a given collection.
+      operationId: addDynamicField
+      parameters:
+      - name: collection
+        in: path
+        description: Collection ID.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Dynamic field configuration.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DynamicField'
+        required: false
+      responses:
+        '200':
+          description: successful operation
+          content: {}
+      x-codegen-request-body-name: body
+  /collections/{collection}/schema/dynamicfields/{field}:
+    delete:
+      tags:
+      - Collections
+      summary: Delete a dynamic field
+      description: Deletes a dynamic field from a given collection.
+      operationId: deleteDynamicField
+      parameters:
+      - name: collection
+        in: path
+        description: Collection ID.
+        required: true
+        schema:
+          type: string
+      - name: field
+        in: path
+        description: Field name.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content: {}
+    put:
+      tags:
+      - Collections
+      summary: Update a dynamic field
+      description: Updates a dynamic field from a given collection.
+      operationId: updateDynamicField
+      parameters:
+      - name: collection
+        in: path
+        description: Collection ID.
+        required: true
+        schema:
+          type: string
+      - name: field
+        in: path
+        description: Field name.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Dynamic field configuration.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DynamicField'
+        required: false
+      responses:
+        '200':
+          description: successful operation
+          content: {}
+      x-codegen-request-body-name: body
+  /collections/{collection}/schema/dynamicfields.schema:
+    get:
+      tags:
+      - Collections
+      summary: Get the dynamic fields schema
+      description: Returns dynamic fields schema for a given collection.
+      operationId: getDynamicSchema
+      parameters:
+      - name: collection
+        in: path
+        description: Collection ID.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectType'
+  /collections/{collection}/synonyms/status:
+    get:
+      tags:
+      - Collections
+      summary: Get synonyms status
+      description: Check the status of a collection's synonyms.
+      operationId: getStatus_26
+      parameters:
+      - name: collection
+        in: path
+        description: Collection ID.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServiceStatus'
+  /collections/{collection}/synonyms:
+    get:
+      tags:
+      - Collections
+      summary: List all synonyms files
+      description: Return a list of synonyms files along with their editing states (`READY`/`NOT_READY`/`NOT_SAVED`).
+      operationId: listFiles_1
+      parameters:
+      - name: collection
+        in: path
+        description: The name of a collection.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SynonymFile'
+  /collections/{collection}/synonyms/{path}:
+    get:
+      tags:
+      - Collections
+      summary: Get the synonyms file editing status
+      description: Return editing READY/NOT_READY status for a single synonyms file (or 404).
+      operationId: getFile_1
+      parameters:
+      - name: collection
+        in: path
+        description: The name of a collection.
+        required: true
+        schema:
+          type: string
+      - name: path
+        in: path
+        description: The path to a synonyms file.
+        required: true
+        schema:
+          pattern: .*
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SynonymFile'
+    put:
+      tags:
+      - Collections
+      summary: Update a synonyms file
+      description: Change a synonyms file's state.
+      operationId: changeState
+      parameters:
+      - name: collection
+        in: path
+        description: The name of a collection.
+        required: true
+        schema:
+          type: string
+      - name: path
+        in: path
+        description: The path to a synonyms file.
+        required: true
+        schema:
+          pattern: .*
+          type: string
+      requestBody:
+        description: The file's new path and state.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SynonymFile'
+        required: false
+      responses:
+        '200':
+          description: successful operation
+          content: {}
+      x-codegen-request-body-name: body
+  /collections/{collection}/synonyms/{path}/items:
+    get:
+      tags:
+      - Collections
+      summary: Get a synonyms file
+      description: Export synonyms as a CSV file.
+      operationId: exportToCsv
+      parameters:
+      - name: collection
+        in: path
+        description: The name of a collection.
+        required: true
+        schema:
+          type: string
+      - name: path
+        in: path
+        description: The path to a synonyms file.
+        required: true
+        schema:
+          pattern: .*
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            text/csv; qs=0.9:
+              schema:
+                $ref: '#/components/schemas/StreamingOutput'
+    post:
+      tags:
+      - Collections
+      summary: Create synonym entries
+      description: Add one or more new entries to a synonyms file.
+      operationId: addSynonym
+      parameters:
+      - name: collection
+        in: path
+        description: The name of a collection.
+        required: true
+        schema:
+          type: string
+      - name: path
+        in: path
+        description: The path to a synonyms file.
+        required: true
+        schema:
+          pattern: .*
+          type: string
+      - name: commit
+        in: query
+        description: If true, commit the change to Solr immediately instead of asynchronously.
+        schema:
+          type: boolean
+          default: true
+      - name: fusion-user-name
+        in: header
+        description: The Fusion user for authentication.
+        schema:
+          type: string
+      requestBody:
+        description: JSON-formatted synonym entries.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SynonymEntry'
+        required: false
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SynonymEntry'
+      x-codegen-request-body-name: body
+  /collections/{collection}/synonyms/{path}/items/{id}:
+    put:
+      tags:
+      - Collections
+      summary: Update a synonym entry
+      description: Update an entry in a synonyms file.
+      operationId: updateSynonym
+      parameters:
+      - name: collection
+        in: path
+        description: The name of a collection.
+        required: true
+        schema:
+          type: string
+      - name: path
+        in: path
+        description: The path to a synonyms file.
+        required: true
+        schema:
+          pattern: .*
+          type: string
+      - name: id
+        in: path
+        description: The unique ID of the synonym entry.
+        required: true
+        schema:
+          type: string
+      - name: commit
+        in: query
+        description: If true, commit the change to Solr immediately instead of asynchronously.
+        schema:
+          type: boolean
+          default: true
+      - name: fusion-user-name
+        in: header
+        description: The Fusion user for authentication.
+        schema:
+          type: string
+      requestBody:
+        description: JSON-formatted synonym entries.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SynonymEntry'
+        required: false
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SynonymEntry'
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+      - Collections
+      summary: Delete a synonym entry
+      description: Delete an entry in a synonyms file.
+      operationId: deleteSynonym
+      parameters:
+      - name: collection
+        in: path
+        description: The name of a collection.
+        required: true
+        schema:
+          type: string
+      - name: path
+        in: path
+        description: The path to a synonyms file.
+        required: true
+        schema:
+          pattern: .*
+          type: string
+      - name: id
+        in: path
+        description: The unique ID of the synonym entry.
+        required: true
+        schema:
+          type: string
+      - name: commit
+        in: query
+        description: If true, commit the change to Solr immediately instead of asynchronously.
+        schema:
+          type: boolean
+          default: true
+      responses:
+        '200':
+          description: successful operation
+          content: {}
+  /collections/{collection}/synonyms/{path}/suggestions:
+    get:
+      tags:
+      - Collections
+      summary: Get synonym suggestions
+      description: Get term suggestions from synonyms/categories/comments for autocomplete/autosuggest purposes.
+      operationId: getSuggestions
+      parameters:
+      - name: collection
+        in: path
+        description: The name of a collection.
+        required: true
+        schema:
+          type: string
+      - name: path
+        in: path
+        description: The path to a synonyms file.
+        required: true
+        schema:
+          pattern: .*
+          type: string
+      - name: field
+        in: query
+        description: The field to search.
+        schema:
+          type: string
+      - name: q
+        in: query
+        description: The query term for which to get suggestions.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+      deprecated: true
+  /collections/{collection}/solr-config/status:
+    get:
+      tags:
+      - Collections
+      summary: Get the Solr config status
+      description: Check the status of a collection's Solr config.
+      operationId: getStatus_23
+      parameters:
+      - name: collection
+        in: path
+        description: Collection ID.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServiceStatus'
+components:
+  schemas:
+    ReplicaInfo:
+      type: object
+      properties:
+        state:
+          type: string
+        core:
+          type: string
+        leader:
+          type: boolean
+        base_url:
+          type: string
+        node_name:
+          type: string
+    CompositeIdSpec:
+      type: object
+      properties:
+        routeKey1Field:
+          type: string
+        routeKey1Bits:
+          type: integer
+          format: int32
+        routeKey2Field:
+          type: string
+        routeKey2Bits:
+          type: integer
+          format: int32
+    ServiceStatus:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - starting
+          - ok
+          - warning
+          - error
+          - shutdown
+        node:
+          type: string
+          readOnly: true
+        messages:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/StatusMessage'
+    StatusMessage:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+          readOnly: true
+        message:
+          type: string
+          readOnly: true
+    Analyzer:
+      type: object
+      properties:
+        tokenizer:
+          $ref: '#/components/schemas/Tokenizer'
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/Filter'
+        type:
+          type: string
+        class:
+          type: string
+    ObjectType:
+      type: object
+      properties:
+        type:
+          type: string
+          readOnly: true
+          enum:
+          - String
+          - Number
+          - Integer
+          - Boolean
+          - Object
+          - Array
+          - 'Null'
+          - Ref
+        title:
+          type: string
+          readOnly: true
+        description:
+          type: string
+          readOnly: true
+        required:
+          uniqueItems: true
+          type: array
+          readOnly: true
+          items:
+            type: string
+        properties:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AnyType'
+          readOnly: true
+        additionalProperties:
+          type: object
+          properties: {}
+          readOnly: true
+        minProperties:
+          type: integer
+          format: int32
+          readOnly: true
+        maxProperties:
+          type: integer
+          format: int32
+          readOnly: true
+        definitions:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AnyType'
+          readOnly: true
+        category:
+          type: string
+          readOnly: true
+        categoryPriority:
+          type: integer
+          format: int32
+          readOnly: true
+        enum:
+          uniqueItems: true
+          type: array
+          readOnly: true
+          items:
+            type: object
+            properties: {}
+        hints:
+          uniqueItems: true
+          type: array
+          readOnly: true
+          items:
+            type: string
+        unsafe:
+          type: boolean
+          readOnly: true
+        default:
+          type: object
+          properties: {}
+          readOnly: true
+        oneOf:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/AnyTypeObjectObject'
+        propertyGroups:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/PropertyGroup'
+    CollectionMetrics:
+      type: object
+      properties:
+        collectionId:
+          type: string
+          readOnly: true
+        documentCount:
+          type: integer
+          format: int64
+          readOnly: true
+        requestCount:
+          type: integer
+          format: int64
+          readOnly: true
+        avgTimePerRequestMs:
+          type: number
+          format: double
+          readOnly: true
+        sizeInBytes:
+          type: integer
+          format: int64
+          readOnly: true
+        lastModified:
+          type: string
+          format: date-time
+          readOnly: true
+    Feature:
+      type: object
+      properties:
+        name:
+          type: string
+        collectionId:
+          type: string
+        params:
+          type: object
+          additionalProperties:
+            type: object
+            properties: {}
+        enabled:
+          type: boolean
+    AnyTypeObjectObject:
+      type: object
+      properties:
+        type:
+          type: string
+          readOnly: true
+          enum:
+          - String
+          - Number
+          - Integer
+          - Boolean
+          - Object
+          - Array
+          - 'Null'
+          - Ref
+        title:
+          type: string
+          readOnly: true
+        description:
+          type: string
+          readOnly: true
+        enum:
+          uniqueItems: true
+          type: array
+          readOnly: true
+          items:
+            type: object
+            properties: {}
+        default:
+          type: object
+          properties: {}
+          readOnly: true
+        category:
+          type: string
+          readOnly: true
+        categoryPriority:
+          type: integer
+          format: int32
+          readOnly: true
+        hints:
+          uniqueItems: true
+          type: array
+          readOnly: true
+          items:
+            type: string
+        unsafe:
+          type: boolean
+          readOnly: true
+        oneOf:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/AnyTypeObjectObject'
+    Collection:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        createdAt:
+          type: string
+          format: date-time
+        searchClusterId:
+          type: string
+        autoCommit:
+          type: integer
+          format: int32
+          description: Solr hard commit inherited from the collection's `solrconfig.xml` that is designated as Fusion's default parameter for Solr data commits. Number of seconds in which the data is saved, but this parameter does not force the search results to refresh immediately. With this setting, search performance is not slowed, but the new data may not show in search results until the next refresh. Default value is 15.
+          default: 15
+        autoSoftCommit:
+          type: boolean
+          default: 'false'
+          description: Solr soft commit that does not save the data, but makes the data visible to searches almost immediately. If the system crashes, that new data is lost because it has not been saved. Default is false, and search visibility is managed using the `commitWithin` setting.
+        commitWithin:
+          type: integer
+          format: int32
+          description: Solr's `commitWithin` parameter, configured at the collection level with a default of `10000` milliseconds, ensures data is committed and available for searching within 10 seconds. The default for signals collections is `1000` milliseconds. Fusion uses `commitWithin` to avoid relying on specific Solr-side configurations. The `com.lucidworks.apollo.solr.commitWithin` global property defines the default `commitWithin` for all documents added through Fusion. When you create a new collection in Fusion, its per-collection `commitWithin` is initialized from this global default.
+          default: 10000
+        features:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Feature'
+        compositeIdSpec:
+          $ref: '#/components/schemas/CompositeIdSpec'
+        solrParams:
+          $ref: '#/components/schemas/CreateCollectionCmd'
+        modifiedAt:
+          type: string
+          format: date-time
+        type:
+          type: string
+          enum:
+          - DATA
+          - LOGS
+          - METRICS
+          - SIGNALS
+          - SIGNALS_AGGREGATION
+          - SEARCHLOGS
+          - SYNONYMS
+          - RECOMMENDATIONS
+          - HISTORY
+          - BLOBS
+          - MESSAGES
+          - TAXONOMY
+          - CRAWL_DB
+          - JOB_HISTORY
+          - ARCHIVING
+          - AUTOCOMPLETE_DOCUMENTS
+          - QUERY_REWRITE
+          - USER_PREFS
+          - JOB_REPORTS
+          - ACL
+          - 'NULL'
+        relatedCollectionId:
+          type: string
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+    AnyType:
+      type: object
+      properties:
+        type:
+          type: string
+          readOnly: true
+          enum:
+          - String
+          - Number
+          - Integer
+          - Boolean
+          - Object
+          - Array
+          - 'Null'
+          - Ref
+        title:
+          type: string
+          readOnly: true
+        description:
+          type: string
+          readOnly: true
+        enum:
+          uniqueItems: true
+          type: array
+          readOnly: true
+          items:
+            type: object
+            properties: {}
+        default:
+          type: object
+          properties: {}
+          readOnly: true
+        category:
+          type: string
+          readOnly: true
+        categoryPriority:
+          type: integer
+          format: int32
+          readOnly: true
+        hints:
+          uniqueItems: true
+          type: array
+          readOnly: true
+          items:
+            type: string
+        unsafe:
+          type: boolean
+          readOnly: true
+        oneOf:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/AnyTypeObjectObject'
+    Filter:
+      type: object
+      properties:
+        class:
+          type: string
+    SynonymFile:
+      type: object
+      properties:
+        path:
+          type: string
+        state:
+          type: string
+          enum:
+          - NOT_READY
+          - READY
+          - NOT_SAVED
+    Tokenizer:
+      type: object
+      properties:
+        class:
+          type: string
+    ShardInfo:
+      type: object
+      properties:
+        range:
+          type: string
+        state:
+          type: string
+        replicas:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ReplicaInfo'
+    DynamicField:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        indexed:
+          type: boolean
+        stored:
+          type: boolean
+        multiValued:
+          type: boolean
+        required:
+          type: boolean
+        docValues:
+          type: boolean
+        omitNorms:
+          type: boolean
+        omitPositions:
+          type: boolean
+        omitTermFreqAndPositions:
+          type: boolean
+        termVectors:
+          type: boolean
+        termPositions:
+          type: boolean
+        termOffsets:
+          type: boolean
+        copyDests:
+          type: array
+          items:
+            type: string
+        copySources:
+          type: array
+          items:
+            type: string
+        numDocs:
+          type: integer
+          format: int32
+        indexFields:
+          type: array
+          items:
+            $ref: '#/components/schemas/IndexField'
+        default:
+          type: string
+    StreamingOutput:
+      type: object
+    Field:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        indexed:
+          type: boolean
+        stored:
+          type: boolean
+        multiValued:
+          type: boolean
+        required:
+          type: boolean
+        docValues:
+          type: boolean
+        omitNorms:
+          type: boolean
+        omitPositions:
+          type: boolean
+        omitTermFreqAndPositions:
+          type: boolean
+        termVectors:
+          type: boolean
+        termPositions:
+          type: boolean
+        termOffsets:
+          type: boolean
+        copyDests:
+          type: array
+          items:
+            type: string
+        copySources:
+          type: array
+          items:
+            type: string
+        numDocs:
+          type: integer
+          format: int32
+        default:
+          type: string
+    PropertyGroup:
+      type: object
+      properties:
+        label:
+          type: string
+          readOnly: true
+        properties:
+          type: array
+          readOnly: true
+          items:
+            type: string
+    SolrFieldType:
+      type: object
+      properties:
+        name:
+          type: string
+        analyzer:
+          $ref: '#/components/schemas/Analyzer'
+        indexAnalyzer:
+          $ref: '#/components/schemas/Analyzer'
+        queryAnalyzer:
+          $ref: '#/components/schemas/Analyzer'
+        indexed:
+          type: boolean
+        stored:
+          type: boolean
+        multiValued:
+          type: boolean
+        positionIncrementGap:
+          type: integer
+          format: int32
+        class:
+          type: string
+    IndexField:
+      type: object
+      properties:
+        name:
+          type: string
+        numDocs:
+          type: integer
+          format: int32
+    SynonymEntry:
+      type: object
+      properties:
+        id:
+          type: string
+        mapping:
+          type: string
+        category:
+          type: string
+        enabled:
+          type: boolean
+        modified:
+          type: string
+          format: date-time
+        user:
+          type: string
+        type:
+          type: string
+          readOnly: true
+          enum:
+          - EXPLICIT
+          - EQUIVALENT
+    CreateCollectionCmd:
+      type: object
+      properties:
+        name:
+          type: string
+        numShards:
+          type: integer
+          format: int32
+        replicationFactor:
+          type: integer
+          format: int32
+        collection.configName:
+          type: string
+    CollectionInfo:
+      type: object
+      properties:
+        maxShardsPerNode:
+          type: integer
+          format: int32
+        replicationFactor:
+          type: integer
+          format: int32
+        configName:
+          type: string
+        shards:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ShardInfo'
+        policy:
+          type: string
+  securitySchemes:
+    Basic_auth:
+      type: http
+      scheme: basic
+    API_key:
+      name: x-api-key
+      type: apiKey
+      in: header
+x-original-swagger-version: '2.0'

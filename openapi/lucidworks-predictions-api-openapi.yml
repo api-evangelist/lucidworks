@@ -79,6 +79,16 @@ paths:
                 $ref: '#/components/schemas/TokenResponse'
 components:
   schemas:
+    PredictionRequest:
+      type: object
+      required:
+      - input
+      properties:
+        input:
+          type: string
+        parameters:
+          type: object
+          additionalProperties: true
     TokenResponse:
       type: object
       properties:
@@ -102,16 +112,6 @@ components:
           type: string
         client_secret:
           type: string
-    PredictionRequest:
-      type: object
-      required:
-      - input
-      properties:
-        input:
-          type: string
-        parameters:
-          type: object
-          additionalProperties: true
     PredictionAck:
       type: object
       properties:

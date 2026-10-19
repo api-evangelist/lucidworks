@@ -1,0 +1,458 @@
+openapi: 3.2.0
+info:
+  title: Fusion Admin History API
+  description: These APIs provide general administrative functions for your Fusion instance. Use these APIs to manage Fusion objects, App Studio objects, connections to Solr clusters, license files, job schedules, and more. You can also use them to create a history of service events.
+  termsOfService: https://lucidworks.com/legal/developer-license-agreement/
+  contact:
+    name: Lucidworks
+    url: www.lucidworks.com
+    email: support@lucidworks.com
+  license:
+    name: License of API
+    url: https://lucidworks.com/legal/developer-license-agreement/
+  version: '5.9'
+servers:
+- url: https://{FUSION HOST}/api
+  description: Fusion
+  variables:
+    FUSION HOST:
+      default: FUSION_HOST
+      description: Your environment host.
+- url: https://{FUSION HOST}/api/apps/{APP_NAME}
+  description: Fusion app
+  variables:
+    FUSION HOST:
+      default: FUSION_HOST
+      description: Your environment host.
+    APP_NAME:
+      default: APP_NAME
+      description: The name of your Fusion application.
+tags:
+- name: History
+  description: The History API provides information about the services that are running. The list of these services is provided by the Introspect API.
+paths:
+  /history/status:
+    get:
+      tags:
+      - History
+      summary: Get history service status
+      description: Check the status of the History service.
+      operationId: getStatus_8
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServiceStatus'
+  /history:
+    get:
+      tags:
+      - History
+      summary: List all services
+      description: Fetch the list of services managed by these APIs.
+      operationId: listAllServices
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+    delete:
+      tags:
+      - History
+      summary: Clear service histories
+      description: Clear the histories for all services.
+      operationId: clearAllServiceHistory
+      responses:
+        '200':
+          description: successful operation
+          content: {}
+  /history/{service}:
+    get:
+      tags:
+      - History
+      summary: Get a service
+      description: Return information about a service.
+      operationId: getServiceHistory
+      parameters:
+      - name: service
+        in: path
+        description: The name of a service.
+        required: true
+        schema:
+          type: string
+      - name: timeRange
+        in: query
+        description: Time range in Solr format. Default value is [NOW-30DAYS/DAY TO NOW].
+        schema:
+          type: string
+      - name: maxLength
+        in: query
+        description: Maximum number of history elements to retrieve. Default value is 50. For values greater than 500, only 500 history elements will be retrieved.
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/History'
+              example:
+                events:
+                - start: '2014-05-16T14:11:48.849Z'
+                  end: '2014-05-16T14:11:48.849Z'
+                  source: index-pipelines::v1
+                  type: start
+                  status: ok
+                  details: null
+                  error: null
+                - start: '2014-05-16T14:12:48.845Z'
+                  end: '2014-05-16T14:12:48.845Z'
+                  source: index-pipelines::v1
+                  type: start
+                  status: ok
+                  details: null
+                  error: null
+    put:
+      tags:
+      - History
+      summary: Internal only
+      description: For internal use by the system.
+      operationId: addServiceHistory
+      parameters:
+      - name: service
+        in: path
+        description: The name of a service.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: JSON-formatted configuration values.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HistoryEvent'
+        required: false
+      responses:
+        '200':
+          description: successful operation
+          content: {}
+      x-codegen-request-body-name: body
+      x-hidden: true
+    delete:
+      tags:
+      - History
+      summary: Delete service history
+      description: Delete all history for a specified service.
+      operationId: clearServiceHistory
+      parameters:
+      - name: service
+        in: path
+        description: The name of a service.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content: {}
+  /history/{service}/items:
+    get:
+      tags:
+      - History
+      summary: Get service history
+      description: Return all items in a service's history.
+      operationId: listAllItems
+      parameters:
+      - name: service
+        in: path
+        description: The name of a service.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+    delete:
+      tags:
+      - History
+      summary: Delete service history items
+      description: Clear all items from a service's history.
+      operationId: clearAllItemHistory
+      parameters:
+      - name: service
+        in: path
+        description: The name of a service.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content: {}
+  /history/{service}/items/{item}:
+    get:
+      tags:
+      - History
+      summary: Get a service history item
+      description: Return a specific item in a service's history.
+      operationId: getItemHistory
+      parameters:
+      - name: service
+        in: path
+        description: The name of a service.
+        required: true
+        schema:
+          type: string
+      - name: item
+        in: path
+        description: The name of a history item.
+        required: true
+        schema:
+          type: string
+      - name: timeRange
+        in: query
+        description: Time range in Solr format. Default value is [NOW-30DAYS/DAY TO NOW].
+        schema:
+          type: string
+      - name: maxLength
+        in: query
+        description: Maximum number of history elements to retrieve. Default value is 50. For values greater than 500, only 500 history elements will be retrieved.
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/History'
+              example:
+                events:
+                - start: '2014-05-16T15:34:49.008Z'
+                  end: '2014-05-16T15:34:49.435Z'
+                  source: scheduler
+                  type: execute
+                  status: ok
+                  details:
+                    status: 200
+                    entity: "{\n  \"id\" : \"TwitterSearch\",\n  \"dataSourceId\" : \"TwitterSearch\",\n  \"state\" : \"RUNNING\",\n  \"message\" : null,\n  \"startTime\" : 1400254489000,\n  \"endTime\" : -1,\n  \"finished\" : false,\n  \"counters\" : { },\n  \"exception\" : null,\n  \"running\" : true\n}"
+                  error: null
+                - start: '2014-05-16T15:38:32.536Z'
+                  end: '2014-05-16T15:38:32.559Z'
+                  source: scheduler
+                  type: execute
+                  status: ok
+                  details:
+                    status: 200
+                    entity: "{\n  \"id\" : \"TwitterSearch\",\n  \"dataSourceId\" : \"TwitterSearch\",\n  \"state\" : \"RUNNING\",\n  \"message\" : null,\n  \"startTime\" : 1400254712000,\n  \"endTime\" : -1,\n  \"finished\" : false,\n  \"counters\" : { },\n  \"exception\" : null,\n  \"running\" : true\n}"
+                  error: null
+    put:
+      tags:
+      - History
+      summary: Create a service history item
+      description: Add an item to a service's history.
+      operationId: addItemHistory
+      parameters:
+      - name: service
+        in: path
+        description: The name of a service.
+        required: true
+        schema:
+          type: string
+      - name: item
+        in: path
+        description: The name of a history item.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: JSON-formatted history items.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HistoryEvent'
+        required: false
+      responses:
+        '200':
+          description: successful operation
+          content: {}
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+      - History
+      summary: Delete a service history item
+      description: Clear a specific item from a service's history.
+      operationId: clearItemHistory
+      parameters:
+      - name: service
+        in: path
+        description: The name of a service.
+        required: true
+        schema:
+          type: string
+      - name: item
+        in: path
+        description: The name of a history item.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content: {}
+components:
+  schemas:
+    HistoryEvent:
+      type: object
+      properties:
+        start:
+          type: string
+          format: date-time
+        end:
+          type: string
+          format: date-time
+        source:
+          type: string
+        type:
+          type: string
+        status:
+          type: string
+        details:
+          type: object
+          additionalProperties:
+            type: object
+            properties: {}
+        error:
+          $ref: '#/components/schemas/RESTError'
+    ServiceStatus:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - starting
+          - ok
+          - warning
+          - error
+          - shutdown
+        node:
+          type: string
+          readOnly: true
+        messages:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/StatusMessage'
+    History:
+      type: object
+      properties:
+        events:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/HistoryEvent'
+    StatusMessage:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+          readOnly: true
+        message:
+          type: string
+          readOnly: true
+    Throwable:
+      type: object
+      properties:
+        cause:
+          $ref: '#/components/schemas/Throwable'
+        stackTrace:
+          type: array
+          items:
+            $ref: '#/components/schemas/StackTraceElement'
+        message:
+          type: string
+        localizedMessage:
+          type: string
+        suppressed:
+          type: array
+          items:
+            $ref: '#/components/schemas/Throwable'
+    StackTraceElement:
+      type: object
+      properties:
+        methodName:
+          type: string
+        fileName:
+          type: string
+        lineNumber:
+          type: integer
+          format: int32
+        className:
+          type: string
+        nativeMethod:
+          type: boolean
+    RESTError:
+      type: object
+      properties:
+        httpStatusCode:
+          type: integer
+          format: int32
+          readOnly: true
+        error:
+          type: string
+          readOnly: true
+        message:
+          type: string
+          readOnly: true
+        details:
+          type: string
+          readOnly: true
+        cause:
+          $ref: '#/components/schemas/Throwable'
+        stackTrace:
+          type: array
+          items:
+            $ref: '#/components/schemas/StackTraceElement'
+        localizedMessage:
+          type: string
+        suppressed:
+          type: array
+          items:
+            $ref: '#/components/schemas/Throwable'
+        class:
+          type: string
+          readOnly: true
+        httpStatusMessage:
+          type: string
+          readOnly: true
+        requestId:
+          type: string
+          readOnly: true
+      discriminator:
+        propertyName: type
+  securitySchemes:
+    Basic_auth:
+      type: http
+      scheme: basic
+    API_key:
+      name: x-api-key
+      type: apiKey
+      in: header
+x-original-swagger-version: '2.0'

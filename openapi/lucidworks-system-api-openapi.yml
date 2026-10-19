@@ -1,0 +1,597 @@
+openapi: 3.2.0
+info:
+  title: Fusion Admin System API
+  description: These APIs provide general administrative functions for your Fusion instance. Use these APIs to manage Fusion objects, App Studio objects, connections to Solr clusters, license files, job schedules, and more. You can also use them to create a history of service events.
+  termsOfService: https://lucidworks.com/legal/developer-license-agreement/
+  contact:
+    name: Lucidworks
+    url: www.lucidworks.com
+    email: support@lucidworks.com
+  license:
+    name: License of API
+    url: https://lucidworks.com/legal/developer-license-agreement/
+  version: '5.9'
+servers:
+- url: https://{FUSION HOST}/api
+  description: Fusion
+  variables:
+    FUSION HOST:
+      default: FUSION_HOST
+      description: Your environment host.
+- url: https://{FUSION HOST}/api/apps/{APP_NAME}
+  description: Fusion app
+  variables:
+    FUSION HOST:
+      default: FUSION_HOST
+      description: Your environment host.
+    APP_NAME:
+      default: APP_NAME
+      description: The name of your Fusion application.
+tags:
+- name: System
+  description: The System REST API allows you to monitor the system performance.
+paths:
+  /system/autocomplete/documents:
+    get:
+      tags:
+      - System
+      summary: Get autocomplete documents
+      description: Fetch the documents to use for autocomplete.
+      operationId: listDocs
+      parameters:
+      - name: canonicalForm
+        description: This param indicates which documents you want, based on canonical form.
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content: {}
+  /system/autocomplete/status:
+    get:
+      tags:
+      - System
+      summary: Get autocomplete service status
+      description: Check the status of the Autocomplete service.
+      operationId: getStatus_27
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServiceStatus'
+  /system/resolve:
+    get:
+      tags:
+      - System
+      summary: Resolve a URN
+      description: Resolve a Uniform Resource Name (URN).
+      operationId: resolveUrn
+      parameters:
+      - name: urn
+        in: query
+        description: The URN to resolve.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content: {}
+  /system/live_code:
+    get:
+      tags:
+      - System
+      summary: Internal only
+      operationId: live
+      responses:
+        '200':
+          description: successful operation
+          content: {}
+      x-hidden: true
+  /system/teapot:
+    get:
+      tags:
+      - System
+      summary: I'm a little teapot
+      description: Returns `short` and `stout`.
+      externalDocs:
+        description: Any attempt to brew coffee with a teapot should result in the error code "418 I'm a teapot"
+        url: https://www.rfc-editor.org/rfc/rfc2324#section-2.3.2
+      operationId: teapot
+      responses:
+        '200':
+          description: successful operation
+          content: {}
+  /system/metricNames:
+    get:
+      tags:
+      - System
+      summary: Show available metric names
+      description: For use with the 'metric' endpoint.
+      operationId: getMetricNames
+      parameters:
+      - name: pattern
+        in: query
+        description: A regular expression to find all configuration items that contain matching strings.
+        schema:
+          type: string
+      - name: prefix
+        in: query
+        description: Match all configuration items that start with the specified string.
+        schema:
+          type: string
+        example: mem.heap
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: array
+                  items:
+                    type: string
+              example:
+                gauges:
+                - mem.heap.committed
+                - mem.heap.init
+                - mem.heap.max
+                - mem.heap.usage
+                - mem.heap.used
+                counters: []
+                histograms: []
+                meters: []
+                timers: []
+  /system/metric/{name}:
+    get:
+      tags:
+      - System
+      summary: Get a metric's data
+      description: Show data about a specific metric.
+      operationId: getSingleMetric
+      parameters:
+      - name: name
+        in: path
+        description: The name of the metric to display.
+        required: true
+        schema:
+          type: string
+      - name: pretty
+        in: query
+        description: True to format the data for easier reading.
+        schema:
+          type: boolean
+      - name: rateUnit
+        in: query
+        description: The time unit ('seconds', 'minutes', and so on) to display rates.
+        schema:
+          type: string
+      - name: durationUnit
+        in: query
+        description: The time unit ('seconds', 'minutes', and so on) to display durations.
+        schema:
+          type: string
+      - name: showSamples
+        in: query
+        description: True to display the data values used in calculations.
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetricResponse'
+  /system/metrics:
+    get:
+      tags:
+      - System
+      summary: Get all system metrics
+      description: Show data about all system metrics.
+      operationId: getMetrics
+      parameters:
+      - name: pretty
+        in: query
+        description: True to format the data for easier reading.
+        schema:
+          type: boolean
+      - name: rateUnit
+        in: query
+        description: The time unit ('seconds', 'minutes', and so on) to display rates.
+        schema:
+          type: string
+      - name: durationUnit
+        in: query
+        description: The time unit ('seconds', 'minutes', and so on) to display durations.
+        schema:
+          type: string
+      - name: showSamples
+        in: query
+        description: True to display the data values used in calculations.
+        schema:
+          type: boolean
+      - name: pattern
+        in: query
+        description: A regular expression to find all configuration items that contain matching strings.
+        schema:
+          type: string
+      - name: prefix
+        in: query
+        description: Match all configuration items that start with the specified string.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetricResponse'
+              example:
+                version: 3.0.0
+                gauges: {}
+                counters: {}
+                histograms: {}
+                meters:
+                  com.lucidworks.apollo.pipeline.index.IndexPipelineCache.cacheHit:
+                    count: 4775
+                    m15_rate: 0.03604340402401043
+                    m1_rate: 0.04985610410800882
+                    m5_rate: 0.04753263154077047
+                    mean_rate: 0.05028487069705915
+                    units: events/second
+                timers:
+                  com.lucidworks.apollo.pipeline.index.IndexPipelineCache.deserialize:
+                    count: 7
+                    max: 0.078783
+                    mean: 0.028265285714285715
+                    min: 9.800000000000001e-05
+                    p50: 0.000194
+                    p75: 0.06996100000000001
+                    p95: 0.078783
+                    p98: 0.078783
+                    p99: 0.078783
+                    p999: 0.078783
+                    values:
+                    - 9.800000000000001e-05
+                    - 0.000109
+                    - 0.000162
+                    - 0.000194
+                    - 0.04855
+                    - 0.06996100000000001
+                    - 0.078783
+                    stddev: 0.03620774742010466
+                    m15_rate: 2.964393875e-314
+                    m1_rate: 2.128434034679706e-46
+                    m5_rate: 4.9195401948202935e-138
+                    mean_rate: 7.371603924510614e-05
+                    duration_units: seconds
+                    rate_units: calls/second
+                  com.lucidworks.apollo.pipeline.index.IndexStageConfigCache.deserialize:
+                    count: 7
+                    max: 0.002377
+                    mean: 0.00046642857142857147
+                    min: 8.7e-05
+                    p50: 0.000116
+                    p75: 0.000346
+                    p95: 0.002377
+                    p98: 0.002377
+                    p99: 0.002377
+                    p999: 0.002377
+                    values:
+                    - 8.7e-05
+                    - 9.300000000000001e-05
+                    - 0.000111
+                    - 0.000116
+                    - 0.000135
+                    - 0.000346
+                    - 0.002377
+                    stddev: 0.000847267737523163
+                    m15_rate: 2.964393875e-314
+                    m1_rate: 2.1522151745137967e-46
+                    m5_rate: 5.086288568158318e-138
+                    mean_rate: 7.372680363461613e-05
+                    duration_units: seconds
+                    rate_units: calls/second
+                  com.lucidworks.apollo.pipeline.index.IndexStageConfigStore.deserialize:
+                    count: 6
+                    max: 0.0019760000000000003
+                    mean: 0.0005606666666666667
+                    min: 0.00010800000000000001
+                    p50: 0.00014250000000000002
+                    p75: 0.00114875
+                    p95: 0.0019760000000000003
+                    p98: 0.0019760000000000003
+                    p99: 0.0019760000000000003
+                    p999: 0.0019760000000000003
+                    values:
+                    - 0.00010800000000000001
+                    - 0.00012200000000000001
+                    - 0.000135
+                    - 0.00015000000000000001
+                    - 0.0008730000000000001
+                    - 0.0019760000000000003
+                    stddev: 0.000754704622131511
+                    m15_rate: 2.964393875e-314
+                    m1_rate: 1.0220227879692082e-48
+                    m5_rate: 7.20591046931865e-140
+                    mean_rate: 6.318494243486903e-05
+                    duration_units: seconds
+                    rate_units: calls/second
+                  com.lucidworks.apollo.pipeline.index.IndexStageConfigStore.getItem:
+                    count: 6
+                    max: 0.003128
+                    mean: 0.002295
+                    min: 0.0017770000000000002
+                    p50: 0.0020715
+                    p75: 0.002774
+                    p95: 0.003128
+                    p98: 0.003128
+                    p99: 0.003128
+                    p999: 0.003128
+                    values:
+                    - 0.0017770000000000002
+                    - 0.002066
+                    - 0.002066
+                    - 0.0020770000000000003
+                    - 0.0026560000000000004
+                    - 0.003128
+                    stddev: 0.0004989869737778733
+                    m15_rate: 2.964393875e-314
+                    m1_rate: 1.0220227879692082e-48
+                    m5_rate: 7.20591046931865e-140
+                    mean_rate: 6.318494244418448e-05
+                    duration_units: seconds
+                    rate_units: calls/second
+  /system/status_code:
+    get:
+      tags:
+      - System
+      summary: Get the system status
+      description: Check the status of the system.
+      operationId: getStatusCode
+      responses:
+        '200':
+          description: successful operation
+          content: {}
+  /system/version:
+    get:
+      tags:
+      - System
+      summary: Get the system version
+      description: Get Fusion version information.
+      operationId: ver
+      responses:
+        '200':
+          description: successful operation
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+  /system/status:
+    get:
+      tags:
+      - System
+      summary: Get system status
+      description: Check the status of the system.
+      operationId: getStatus_28
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServiceStatus'
+components:
+  schemas:
+    ServiceStatus:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - starting
+          - ok
+          - warning
+          - error
+          - shutdown
+        node:
+          type: string
+          readOnly: true
+        messages:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/StatusMessage'
+    StatusMessage:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+          readOnly: true
+        message:
+          type: string
+          readOnly: true
+    Meter:
+      type: object
+      properties:
+        count:
+          type: integer
+          format: int64
+        fifteenMinuteRate:
+          type: number
+          format: double
+        fiveMinuteRate:
+          type: number
+          format: double
+        meanRate:
+          type: number
+          format: double
+        oneMinuteRate:
+          type: number
+          format: double
+    MetricRegistry:
+      type: object
+      properties:
+        metrics:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Metric'
+        names:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        gauges:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Gauge'
+        counters:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Counter'
+        histograms:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Histogram'
+        meters:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Meter'
+        timers:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Timer'
+    MetricResponse:
+      type: object
+      properties:
+        metricRegistry:
+          $ref: '#/components/schemas/MetricRegistry'
+        metricsList:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Metric'
+        pretty:
+          type: boolean
+        rateUnit:
+          type: string
+          enum:
+          - NANOSECONDS
+          - MICROSECONDS
+          - MILLISECONDS
+          - SECONDS
+          - MINUTES
+          - HOURS
+          - DAYS
+        durationUnit:
+          type: string
+          enum:
+          - NANOSECONDS
+          - MICROSECONDS
+          - MILLISECONDS
+          - SECONDS
+          - MINUTES
+          - HOURS
+          - DAYS
+        showSamples:
+          type: boolean
+    Timer:
+      type: object
+      properties:
+        count:
+          type: integer
+          format: int64
+        fifteenMinuteRate:
+          type: number
+          format: double
+        fiveMinuteRate:
+          type: number
+          format: double
+        meanRate:
+          type: number
+          format: double
+        oneMinuteRate:
+          type: number
+          format: double
+        snapshot:
+          $ref: '#/components/schemas/Snapshot'
+    Histogram:
+      type: object
+      properties:
+        count:
+          type: integer
+          format: int64
+        snapshot:
+          $ref: '#/components/schemas/Snapshot'
+    Gauge:
+      type: object
+      properties:
+        value:
+          type: object
+          properties: {}
+    Counter:
+      type: object
+      properties:
+        count:
+          type: integer
+          format: int64
+    Snapshot:
+      type: object
+      properties:
+        min:
+          type: integer
+          format: int64
+        values:
+          type: array
+          items:
+            type: integer
+            format: int64
+        max:
+          type: integer
+          format: int64
+        mean:
+          type: number
+          format: double
+        stdDev:
+          type: number
+          format: double
+        median:
+          type: number
+          format: double
+        get75thPercentile:
+          type: number
+          format: double
+        get95thPercentile:
+          type: number
+          format: double
+        get98thPercentile:
+          type: number
+          format: double
+        get99thPercentile:
+          type: number
+          format: double
+        get999thPercentile:
+          type: number
+          format: double
+    Metric:
+      type: object
+  securitySchemes:
+    Basic_auth:
+      type: http
+      scheme: basic
+    API_key:
+      name: x-api-key
+      type: apiKey
+      in: header
+x-original-swagger-version: '2.0'

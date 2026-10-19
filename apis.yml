@@ -379,6 +379,371 @@ apis:
       https://doc.lucidworks.com/api-reference/split-content-into-chunks/chunk-text-using-the-specified-chunker
   - type: Documentation
     url: https://doc.lucidworks.com/api-reference/manage-models/list-all-models
+- aid: lucidworks:lucidworks-apps-api
+  name: Lucidworks Apps API
+  description: >-
+    The Apps API manages your Fusion apps. To export or import an app, see the Objects API. You can also
+    import an app using the Fusion UI.
+  humanURL: https://doc.lucidworks.com/docs/5/fusion/dev-portal/rest-apis
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Apps
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-apps-api-openapi.yml
+- aid: lucidworks:lucidworks-blobs-api
+  name: Lucidworks Blobs API
+  description: >-
+    The Blob Store REST API allows storing binary objects in Solr. You can use it to store entity extraction
+    models, lookup lists or exclusion lists for use in index pipelines. This may include the entity extraction
+    models and lookup lists included with Fusion in the `{fusion_path}/data/nlp` directory, or files that
+    you have created on your own.
+  humanURL: https://doc.lucidworks.com/docs/5/fusion/dev-portal/rest-apis
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Blobs
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-blobs-api-openapi.yml
+- aid: lucidworks:lucidworks-collections-api
+  name: Lucidworks Collections API
+  description: >-
+    The Collections API manages Fusion collections. It provides endpoints for creating, updating, and
+    deleting collection, as well as endpoints for getting a collection's status and usage statistics.
+
+
+    Fusion maintains internal system collections for logs, blobs, and metrics data which operate in conjunction
+    with collections created by users. The Collections API is used to manage all Fusion collections.
+  humanURL: https://doc.lucidworks.com/docs/5/fusion/dev-portal/rest-apis
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Collections
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-collections-api-openapi.yml
+- aid: lucidworks:lucidworks-configurations-api
+  name: Lucidworks Configurations API
+  description: >-
+    The Configurations API allows setting global properties for Fusion.
+
+
+    Some settings are not set by any configuration file but are reported as settings from the operating
+    system. Those settings cannot be changed with this API.
+
+
+    > ⚠️ **Blocked by default:** This API is blocked on the API gateway by default because it exposes
+    all Fusion admin service environment variables. It can be enabled in special cases — contact [Lucidworks
+    Support](https://lucidworks.com/support) to discuss your use case. In Fusion 5.18 and later, use [Fusion
+    Vault](/docs/5/fusion/operations/security/external-vault) instead, which provides a safer, structured
+    approach to managing configuration values and secrets. The Configurations API is deprecated as of
+    Fusion 5.18.
+  humanURL: https://doc.lucidworks.com/docs/5/fusion/dev-portal/rest-apis
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Configurations
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-configurations-api-openapi.yml
+- aid: lucidworks:lucidworks-crud-events-api
+  name: Lucidworks CRUD events API
+  description: Check the status of the CRUD Events service.
+  humanURL: https://doc.lucidworks.com/docs/5/fusion/dev-portal/rest-apis
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - CRUD events
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-crud-events-api-openapi.yml
+- aid: lucidworks:lucidworks-data-models-api
+  name: Lucidworks Data models API
+  description: >-
+    These APIs manage data models.
+
+
+    Data models simplify the process of getting started with Fusion by providing pre-configured objects
+    to reduce the effort spent on basic starting tasks. This helps keep documents consistent between datasources
+    and intuitive to the object's type.
+  humanURL: https://doc.lucidworks.com/docs/5/fusion/dev-portal/rest-apis
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Data models
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-data-models-api-openapi.yml
+- aid: lucidworks:lucidworks-features-api
+  name: Lucidworks Features API
+  description: >-
+    The Features API lets you observe the status of features across collections.  To manipulate features
+    for a specific collection, use the Collections API.
+  humanURL: https://doc.lucidworks.com/docs/5/fusion/dev-portal/rest-apis
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Features
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-features-api-openapi.yml
+- aid: lucidworks:lucidworks-groups-api
+  name: Lucidworks Groups API
+  description: >-
+    These endpoints show you how your Fusion objects are grouped.  For example, you can use this API to
+    see the signals-related jobs and collections that are part of a primary collection's group.
+  humanURL: https://doc.lucidworks.com/docs/5/fusion/dev-portal/rest-apis
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Groups
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-groups-api-openapi.yml
+- aid: lucidworks:lucidworks-history-api
+  name: Lucidworks History API
+  description: >-
+    The History API provides information about the services that are running. The list of these services
+    is provided by the Introspect API.
+  humanURL: https://doc.lucidworks.com/docs/5/fusion/dev-portal/rest-apis
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - History
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-history-api-openapi.yml
+- aid: lucidworks:lucidworks-introspect-api
+  name: Lucidworks Introspect API
+  description: >-
+    The Fusion Introspect endpoint lists basic information about endpoints and parameters for all Fusion
+    endpoints.
+  humanURL: https://doc.lucidworks.com/docs/5/fusion/dev-portal/rest-apis
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Introspect
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-introspect-api-openapi.yml
+- aid: lucidworks:lucidworks-jobs-api
+  name: Lucidworks Jobs API
+  description: >-
+    The Jobs API allows you to define schedules for objects that perform work. You can schedule datasources,
+    tasks, and Spark jobs.
+  humanURL: https://doc.lucidworks.com/docs/5/fusion/dev-portal/rest-apis
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Jobs
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-jobs-api-openapi.yml
+- aid: lucidworks:lucidworks-license-api
+  name: Lucidworks License API
+  description: The License API provides license management features.
+  humanURL: https://doc.lucidworks.com/docs/5/fusion/dev-portal/rest-apis
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - License
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-license-api-openapi.yml
+- aid: lucidworks:lucidworks-links-api
+  name: Lucidworks Links API
+  description: >-
+    The Links API manages the links that represent the relationships between Fusion objects. You can see
+    these links in the Object Explorer in the Fusion UI. You can also export and import links using the
+    Objects API.
+
+
+    Links are structured as a tuple of (`subject`, `object`, `linkType`). An example would be (`foo`,
+    `bar`, `dependsOn`), which would read as "foo dependsOn bar".
+  humanURL: https://doc.lucidworks.com/docs/5/fusion/dev-portal/rest-apis
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Links
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-links-api-openapi.yml
+- aid: lucidworks:lucidworks-nodes-api
+  name: Lucidworks Nodes API
+  description: The Nodes API lets you check the status of each node in the search cluster.
+  humanURL: https://doc.lucidworks.com/docs/5/fusion/dev-portal/rest-apis
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Nodes
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-nodes-api-openapi.yml
+- aid: lucidworks:lucidworks-objects-api
+  name: Lucidworks Objects API
+  description: >-
+    The Objects API lets you import and export objects between Fusion instances. Fusion objects include
+    all your searchable data, plus pipelines, aggregations, and other configurations on which your collections
+    depend.
+  humanURL: https://doc.lucidworks.com/docs/5/fusion/dev-portal/rest-apis
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Objects
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-objects-api-openapi.yml
+- aid: lucidworks:lucidworks-registration-api
+  name: Lucidworks Registration API
+  description: Check the status of the Registration service.
+  humanURL: https://doc.lucidworks.com/docs/5/fusion/dev-portal/rest-apis
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Registration
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-registration-api-openapi.yml
+- aid: lucidworks:lucidworks-scheduler-api
+  name: Lucidworks Scheduler API
+  description: >-
+    Use the Scheduler API to define a schedule for system activities and manage the jobs that result from
+    the schedule.  All of the Fusion services are available for scheduling, as are any Solr activities
+    and any other HTTP-based URI.
+
+
+
+
+    >This API is deprecated in favor of the Jobs API.
+  humanURL: https://doc.lucidworks.com/docs/5/fusion/dev-portal/rest-apis
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Scheduler
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-scheduler-api-openapi.yml
+- aid: lucidworks:lucidworks-search-cluster-api
+  name: Lucidworks Search cluster API
+  description: >-
+    The Search Cluster API lets you connect Fusion with existing Solr instances in a Zookeeper-managed
+    cluster.
+  humanURL: https://doc.lucidworks.com/docs/5/fusion/dev-portal/rest-apis
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Search cluster
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-search-cluster-api-openapi.yml
+- aid: lucidworks:lucidworks-search-logs-api
+  name: Lucidworks Search logs API
+  description: The Search Logs API lets you manage a `searchLogs` collection.
+  humanURL: https://doc.lucidworks.com/docs/5/fusion/dev-portal/rest-apis
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Search logs
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-search-logs-api-openapi.yml
+- aid: lucidworks:lucidworks-solr-admin-api
+  name: Lucidworks Solr admin API
+  description: >-
+    The Solr Admin API lets you send commands to Solr through Fusion's proxy service. This allows you
+    to protect your Solr instances from outside connections, and apply roles and user permissions from
+    Fusion when running Solr commands. Requests sent to this API are subject to access restrictions above
+    the collection level.
+
+
+    Note that because one `searchCluster` may host several collections, it is not recommended to use this
+    with a collection-level command (such as a query, or document update).
+  humanURL: https://doc.lucidworks.com/docs/5/fusion/dev-portal/rest-apis
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Solr admin
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-solr-admin-api-openapi.yml
+- aid: lucidworks:lucidworks-solr-api
+  name: Lucidworks Solr API
+  description: >-
+    The Solr API is used to manage collection-level configurations.
+
+
+    Since this API proxies requests to Solr, each available method corresponds to the method in Solr.
+    So, a `GET` request to Solr would use the `GET` method of this endpoint; a `POST` would use the `POST`
+    method, and so on.
+
+
+    Depending on the request, the response may consist of records that match a query or output from a
+    Schema API request.
+  humanURL: https://doc.lucidworks.com/docs/5/fusion/dev-portal/rest-apis
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Solr
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-solr-api-openapi.yml
+- aid: lucidworks:lucidworks-solr-configuration-api
+  name: Lucidworks Solr Configuration API
+  description: >-
+    The Solr Configuration REST API lets you access and manage Solr configuration files stored in ZooKeeper.
+  humanURL: https://doc.lucidworks.com/docs/5/fusion/dev-portal/rest-apis
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Solr Configuration
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-solr-configuration-api-openapi.yml
+- aid: lucidworks:lucidworks-swagger-api
+  name: Lucidworks Swagger API
+  description: These endpoints give you details about Fusion's REST API schemas.
+  humanURL: https://doc.lucidworks.com/docs/5/fusion/dev-portal/rest-apis
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Swagger
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-swagger-api-openapi.yml
+- aid: lucidworks:lucidworks-system-api
+  name: Lucidworks System API
+  description: The System REST API allows you to monitor the system performance.
+  humanURL: https://doc.lucidworks.com/docs/5/fusion/dev-portal/rest-apis
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - System
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-system-api-openapi.yml
+- aid: lucidworks:lucidworks-tasks-api
+  name: Lucidworks Tasks API
+  description: >-
+    These endpoints let you manage tasks, a flexible job type that can be used to clean up old logs or
+    run any REST call.
+  humanURL: https://doc.lucidworks.com/docs/5/fusion/dev-portal/rest-apis
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Tasks
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-tasks-api-openapi.yml
+- aid: lucidworks:lucidworks-update-api
+  name: Lucidworks Update API
+  description: Consult Lucidworks before using these endpoints.
+  humanURL: https://doc.lucidworks.com/docs/5/fusion/dev-portal/rest-apis
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Update
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-update-api-openapi.yml
+- aid: lucidworks:lucidworks-webapps-api
+  name: Lucidworks Webapps API
+  description: Deprecated.
+  humanURL: https://doc.lucidworks.com/docs/5/fusion/dev-portal/rest-apis
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - Webapps
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-webapps-api-openapi.yml
+- aid: lucidworks:lucidworks-zookeeper-api
+  name: Lucidworks Zoo Keeper API
+  description: >-
+    The ZooKeeper Import/Export API provides methods to upload or download information from Fusion's ZooKeeper
+    service. This service provides an alternative to the ZooKeeper clients `zkCli.sh` and `zk-shell` which
+    are part of the Apache Zookeeper distribution included as part of the Fusion distribution.
+  humanURL: https://doc.lucidworks.com/docs/5/fusion/dev-portal/rest-apis
+  baseURL: https://api.lucidworks.ai
+  tags:
+  - ZooKeeper
+  properties:
+  - type: OpenAPI
+    url: openapi/lucidworks-zookeeper-api-openapi.yml
 common:
   - type: Plans
     url: plans/lucidworks-plans-pricing.yml

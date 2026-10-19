@@ -1,0 +1,12 @@
+{
+ "url": "https://doc.lucidworks.com/api-reference/5.9/fusion-api-swagger.json",
+ "final": "https://doc.lucidworks.com/api-reference/5.9/fusion-api-swagger.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 348728,
+ "sha256": "5fecf4fddb71bed66b69c045e21078ae2266bb72933ae04639eba160765a3ec8",
+ "fetched_at": "2026-10-19",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "re-archived: the provider's current document replaced a stale archive (roadmap#793); the old files are in openapi/_superseded/2026-10-19-stale"
+}

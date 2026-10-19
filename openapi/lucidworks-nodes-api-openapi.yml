@@ -1,0 +1,231 @@
+openapi: 3.2.0
+info:
+  title: Fusion Admin Nodes API
+  description: These APIs provide general administrative functions for your Fusion instance. Use these APIs to manage Fusion objects, App Studio objects, connections to Solr clusters, license files, job schedules, and more. You can also use them to create a history of service events.
+  termsOfService: https://lucidworks.com/legal/developer-license-agreement/
+  contact:
+    name: Lucidworks
+    url: www.lucidworks.com
+    email: support@lucidworks.com
+  license:
+    name: License of API
+    url: https://lucidworks.com/legal/developer-license-agreement/
+  version: '5.9'
+servers:
+- url: https://{FUSION HOST}/api
+  description: Fusion
+  variables:
+    FUSION HOST:
+      default: FUSION_HOST
+      description: Your environment host.
+- url: https://{FUSION HOST}/api/apps/{APP_NAME}
+  description: Fusion app
+  variables:
+    FUSION HOST:
+      default: FUSION_HOST
+      description: Your environment host.
+    APP_NAME:
+      default: APP_NAME
+      description: The name of your Fusion application.
+tags:
+- name: Nodes
+  description: The Nodes API lets you check the status of each node in the search cluster.
+paths:
+  /nodes/status:
+    get:
+      tags:
+      - Nodes
+      summary: Get nodes service status
+      description: Check the status of the Nodes service.
+      operationId: getStatus_13
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServiceStatus'
+  /nodes/hosts:
+    get:
+      tags:
+      - Nodes
+      summary: List all hosts
+      description: Returns a list of hosts running endpoints.
+      operationId: hosts
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /nodes/up:
+    get:
+      tags:
+      - Nodes
+      summary: List running endpoints by service
+      description: Returns a list of running endpoints grouped by service.
+      operationId: up
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: array
+                  items:
+                    type: string
+                    format: uri
+              example:
+                history::v1:
+                - https://FUSION_HOST:8984/connectors/v1/history
+                - https://FUSION_HOST:FUSION_PORT/api/history
+                query-pipelines::v1:
+                - https://FUSION_HOST:FUSION_PORT/api/query-pipelines
+                - https://FUSION_HOST:FUSION_PORT/api/query-pipelines
+                solrconfig::v1:
+                - https://FUSION_HOST:FUSION_PORT/api/collections//solr-config
+                solrAdmin::v1:
+                - https://FUSION_HOST:FUSION_PORT/api/solrAdmin
+                - https://FUSION_HOST:8984/connectors/v1/solrAdmin
+                stopwords::v1:
+                - https://FUSION_HOST:FUSION_PORT/api/stopwords
+                collections::v1:
+                - https://FUSION_HOST:FUSION_PORT/api/collections
+                index-stages::v1:
+                - https://FUSION_HOST:8984/connectors/v1/index-stages
+                - https://FUSION_HOST:FUSION_PORT/api/index-stages
+                nodes::v1:
+                - https://FUSION_HOST:8984/connectors/v1/nodes
+                - https://FUSION_HOST:FUSION_PORT/api/nodes
+                index-profiles::v1:
+                - https://FUSION_HOST:FUSION_PORT/api/collections//index-profiles
+                - https://FUSION_HOST:8984/connectors/v1/collections//index-profiles
+                schema::v1:
+                - https://FUSION_HOST:FUSION_PORT/api/collections//schema
+                solr::v1:
+                - https://FUSION_HOST:8984/connectors/v1/solr
+                - https://FUSION_HOST:FUSION_PORT/api/solr
+                query-stages::v1:
+                - https://FUSION_HOST:FUSION_PORT/api/query-stages
+                blobs::v1:
+                - https://FUSION_HOST:FUSION_PORT/api/blobs
+                connectors::v1:
+                - https://FUSION_HOST:8984/connectors/v1/connectors
+                recommend::v1:
+                - https://FUSION_HOST:FUSION_PORT/api/recommend
+                configurations::v1:
+                - https://FUSION_HOST:FUSION_PORT/api/configurations
+                - https://FUSION_HOST:8984/connectors/v1/configurations
+                system::v1:
+                - https://FUSION_HOST:FUSION_PORT/api/system
+                - https://FUSION_HOST:8984/connectors/v1/system
+                index-pipelines::v1:
+                - https://FUSION_HOST:FUSION_PORT/api/index-pipelines
+                - https://FUSION_HOST:FUSION_PORT/api/index-pipelines
+                - https://FUSION_HOST:FUSION_PORT/api/index-pipelines
+                - https://FUSION_HOST:FUSION_PORT/api/index-pipelines
+                - https://FUSION_HOST:FUSION_PORT/api/index-pipelines
+                - https://FUSION_HOST:FUSION_PORT/api/index-pipelines
+                - https://FUSION_HOST:FUSION_PORT/api/index-pipelines
+                - https://FUSION_HOST:8984/connectors/v1/index-pipelines
+                - https://FUSION_HOST:8984/connectors/v1/index-pipelines
+                - https://FUSION_HOST:FUSION_PORT/api/index-pipelines
+                - https://FUSION_HOST:FUSION_PORT/api/index-pipelines
+                query-pipeline-templates::v1:
+                - https://FUSION_HOST:FUSION_PORT/api/pipeline-templates/query
+                registration::v1:
+                - https://FUSION_HOST:8984/connectors/v1/registration
+                - https://FUSION_HOST:FUSION_PORT/api/registration
+                searchLogs::v1:
+                - https://FUSION_HOST:FUSION_PORT/api/searchLogs
+                scheduler::v1:
+                - https://FUSION_HOST:FUSION_PORT/api/scheduler
+                aggregator::v1:
+                - https://FUSION_HOST:FUSION_PORT/api/aggregator
+                query-profiles::v1:
+                - https://FUSION_HOST:FUSION_PORT/api/collections//query-profiles
+                usage::v1:
+                - https://FUSION_HOST:FUSION_PORT/api/usage
+                - https://FUSION_HOST:8984/connectors/v1/usage
+                introspect::v1:
+                - https://FUSION_HOST:FUSION_PORT/api/introspect
+                - https://FUSION_HOST:8984/connectors/v1/introspect
+                searchCluster::v1:
+                - https://FUSION_HOST:FUSION_PORT/api/searchCluster
+                - https://FUSION_HOST:8984/connectors/v1/searchCluster
+                features::v1:
+                - https://FUSION_HOST:FUSION_PORT/api/features
+                index-pipeline-templates::v1:
+                - https://FUSION_HOST:8984/connectors/v1/pipeline-templates/index
+                - https://FUSION_HOST:FUSION_PORT/api/pipeline-templates/index
+                synonyms::v1:
+                - https://FUSION_HOST:FUSION_PORT/api/synonyms
+                reports::v1:
+                - https://FUSION_HOST:FUSION_PORT/api/reports
+                signals::v1:
+                - https://FUSION_HOST:FUSION_PORT/api/signals
+  /nodes/upByHost:
+    get:
+      tags:
+      - Nodes
+      summary: List running endpoints by host
+      description: Returns a list of running endpoints grouped by host.
+      operationId: upByHost
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: array
+                  items:
+                    type: string
+components:
+  schemas:
+    ServiceStatus:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - starting
+          - ok
+          - warning
+          - error
+          - shutdown
+        node:
+          type: string
+          readOnly: true
+        messages:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/StatusMessage'
+    StatusMessage:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+          readOnly: true
+        message:
+          type: string
+          readOnly: true
+  securitySchemes:
+    Basic_auth:
+      type: http
+      scheme: basic
+    API_key:
+      name: x-api-key
+      type: apiKey
+      in: header
+x-original-swagger-version: '2.0'

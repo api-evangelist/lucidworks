@@ -77,6 +77,13 @@ components:
           type: integer
         regex:
           type: string
+    ChunkAck:
+      type: object
+      properties:
+        chunkingId:
+          type: string
+        status:
+          type: string
     ChunkResult:
       type: object
       properties:
@@ -95,13 +102,6 @@ components:
                 type: integer
               index:
                 type: integer
-    ChunkAck:
-      type: object
-      properties:
-        chunkingId:
-          type: string
-        status:
-          type: string
   securitySchemes:
     bearerAuth:
       type: http
