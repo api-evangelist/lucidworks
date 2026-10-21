@@ -33,3 +33,16 @@
     detected: '2026-10-20'
   status: not-a-workflow
   arazzo: null
+- slug: lucidworks-commercetools-own
+  label: commercetools (own)
+  partner: commercetools
+  partner_name: commercetools (own)
+  category: Search & Personalization
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://commercetools.com/technology-partners/lucidworks
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
