@@ -10,10 +10,10 @@
     },
     {
       "source": "https://lucidworks.com/blog",
-      "feed_url": "https://lucidworks.com/blog",
+      "feed_url": "https://lucidworks.com/blog/feed/",
       "title": "",
       "saved": 0,
-      "method": "none"
+      "method": "discovered"
     },
     {
       "source": "https://doc.lucidworks.com/docs/5/fusion/dev-portal/connectors-sdk/overview",
@@ -23,6 +23,6 @@
       "method": "none"
     }
   ],
-  "post_count": 0,
-  "fetched": "2026-10-10T13:15:00Z"
+  "post_count": 10,
+  "fetched": "2026-10-17T14:53:57Z"
 }
