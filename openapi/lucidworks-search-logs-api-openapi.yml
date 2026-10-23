@@ -120,3 +120,9 @@ components:
       type: apiKey
       in: header
 x-original-swagger-version: '2.0'
+x-provenance:
+  method: harvested
+  publisher: Lucidworks
+  source: https://doc.lucidworks.com/api-reference/5.9/fusion-api-swagger.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
